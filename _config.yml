@@ -1,0 +1,11 @@
+title: 2025 금옥여고 입시 결과 분석
+description: 2025년 금옥여고 입시 결과 분석 웹 리포트
+baseurl: ""
+url: ""
+
+# GitHub Pages 설정
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default

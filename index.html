@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="2025년 금옥여고 입시 결과 분석 - 등급대별 대학, 전형, 계열, 모집단위 종합 분석">
+    <meta name="keywords" content="금옥여고, 입시결과, 대학입시, 진학분석">
     <title>2025년 금옥여고 입시 결과 분석(중복포함)</title>
     <style>
         body {
@@ -187,6 +189,18 @@
 
     <div class="filters">
         <div class="filter-group">
+            <label for="category-filter">계열</label>
+            <select id="category-filter">
+                <option value="all">전체 계열</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="admission-filter">전형 분류</label>
+            <select id="admission-filter">
+                <option value="all">전체 전형</option>
+            </select>
+        </div>
+        <div class="filter-group">
             <label for="grade-filter">등급 범위</label>
             <select id="grade-filter">
                 <option value="all">전체 등급</option>
@@ -202,59 +216,6 @@
                 <option value="5.5-6.0등급">5.5-6.0등급</option>
                 <option value="6.0등급 이상">6.0등급 이상</option>
             </select>
-        </div>
-        <div class="filter-group">
-            <label for="university-filter">대학</label>
-            <select id="university-filter">
-                <option value="all">전체 대학</option>
-                <option value="서울대">서울대</option>
-                <option value="연세대">연세대</option>
-                <option value="고려대">고려대</option>
-                <option value="서강대">서강대</option>
-                <option value="성균관대">성균관대</option>
-                <option value="한양대">한양대</option>
-                <option value="이화여대">이화여대</option>
-                <option value="중앙대">중앙대</option>
-                <option value="경희대">경희대</option>
-                <option value="한국외대">한국외대</option>
-                <option value="서울시립대">서울시립대</option>
-                <option value="건국대">건국대</option>
-                <option value="동국대">동국대</option>
-                <option value="홍익대">홍익대</option>
-                <option value="숙명여대">숙명여대</option>
-                <option value="국민대">국민대</option>
-                <option value="세종대">세종대</option>
-                <option value="단국대">단국대</option>
-                <option value="가톨릭대">가톨릭대</option>
-                <option value="숭실대">숭실대</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label for="category-filter">계열</label>
-            <select id="category-filter">
-                <option value="all">전체 계열</option>
-                <option value="인문">인문계열</option>
-                <option value="자연">자연계열</option>
-                <option value="예체능">예체능계열</option>
-                <option value="공통">공통계열</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label for="admission-filter">전형유형</label>
-            <select id="admission-filter">
-                <option value="all">전체 전형</option>
-                <option value="교과">교과</option>
-                <option value="종합">종합</option>
-                <option value="논술">논술</option>
-                <option value="실기">실기</option>
-                <option value="정시">정시</option>
-                <option value="학생부위주">학생부위주</option>
-                <option value="면접위주">면접위주</option>
-            </select>
-        </div>
-        <div class="filter-group" style="justify-content: flex-end;">
-            <label>&nbsp;</label>
-            <button id="filter-button">적용</button>
         </div>
     </div>
 
@@ -478,10 +439,9 @@
                         // 필터링 기능
                         const filterButton = document.getElementById('filter-button');
                         filterButton.addEventListener('click', function() {
-                            const gradeFilter = document.getElementById('grade-filter').value;
-                            const universityFilter = document.getElementById('university-filter').value;
                             const categoryFilter = document.getElementById('category-filter').value;
                             const admissionFilter = document.getElementById('admission-filter').value;
+                            const gradeFilter = document.getElementById('grade-filter').value;
                             
                             // 현재 표시된 등급대 섹션 찾기
                             const visibleSection = document.querySelector('.grade-section[style="display: block;"]');
@@ -491,22 +451,44 @@
                             const rows = visibleSection.querySelectorAll('tbody tr');
                             
                             rows.forEach(row => {
-                                const university = row.cells[0].textContent.trim();
                                 const category = row.cells[1].querySelector('span').className;
                                 const admission = row.cells[3].querySelector('span').className.split(' ')[1];
                                 
                                 // 필터 적용
-                                const matchesUniversity = universityFilter === 'all' || university.includes(universityFilter);
                                 const matchesCategory = categoryFilter === 'all' || category === categoryFilter;
                                 const matchesAdmission = admissionFilter === 'all' || admission === admissionFilter;
+                                const matchesGrade = gradeFilter === 'all' || visibleSection.getAttribute('data-grade') === gradeFilter;
                                 
                                 // 모든 조건을 만족하면 표시, 아니면 숨김
-                                if (matchesUniversity && matchesCategory && matchesAdmission) {
+                                if (matchesCategory && matchesAdmission && matchesGrade) {
                                     row.style.display = '';
                                 } else {
                                     row.style.display = 'none';
                                 }
                             });
+                        });
+                        
+                        // 필터 옵션 업데이트
+                        const categories = [...new Set(entries.map(entry => entry.category))].sort();
+                        const admissionTypes = [...new Set(entries.map(entry => entry.admissionType))].sort();
+
+                        const categoryFilter = document.getElementById('category-filter');
+                        const admissionFilter = document.getElementById('admission-filter');
+
+                        // 계열 필터 옵션 추가
+                        categories.forEach(category => {
+                            const option = document.createElement('option');
+                            option.value = category;
+                            option.textContent = category;
+                            categoryFilter.appendChild(option);
+                        });
+
+                        // 전형 분류 필터 옵션 추가
+                        admissionTypes.forEach(type => {
+                            const option = document.createElement('option');
+                            option.value = type;
+                            option.textContent = type;
+                            admissionFilter.appendChild(option);
                         });
                     } catch (error) {
                         console.error('데이터 처리 중 오류가 발생했습니다:', error);
