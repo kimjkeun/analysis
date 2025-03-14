@@ -175,7 +175,7 @@
                     return response.text();
                 })
                 .then(data => {
-                    console.log('CSV 데이터 로드 성공');
+                    console.log('CSV 데이터 로드 완료');
                     
                     try {
                         // CSV 파싱
@@ -207,31 +207,6 @@
                             }
                         }
                         
-                        // CSV 라인 파싱 함수
-                        function parseCSVLine(line) {
-                            const values = [];
-                            let inQuotes = false;
-                            let currentValue = '';
-                            
-                            for (let j = 0; j < line.length; j++) {
-                                const char = line[j];
-                                
-                                if (char === '"') {
-                                    inQuotes = !inQuotes;
-                                } else if (char === ',' && !inQuotes) {
-                                    values.push(currentValue);
-                                    currentValue = '';
-                                } else {
-                                    currentValue += char;
-                                }
-                            }
-                            values.push(currentValue); // 마지막 값 추가
-                            
-                            return values;
-                        }
-                        
-                        console.log(`총 ${entries.length}개의 데이터를 로드했습니다.`);
-                        
                         // 등급대별로 데이터 분류
                         const gradeRanges = [
                             { name: '1.0-1.5등급', min: 1.0, max: 1.5 },
@@ -247,93 +222,52 @@
                             { name: '6.0등급 이상', min: 6.0, max: 9.9 }
                         ];
                         
+                        // 등급대별로 데이터 정리
                         const gradeData = {};
                         gradeRanges.forEach(range => {
                             gradeData[range.name] = entries.filter(entry => 
-                                entry.grade >= range.min && (range.name === '6.0등급 이상' ? true : entry.grade < range.max)
+                                entry.grade >= range.min && entry.grade < range.max
                             );
                         });
                         
-                        // 등급대 섹션 생성
-                        const container = document.querySelector('body');
-                        const navigationDiv = document.querySelector('.grade-navigation');
-                        
-                        // 기존 등급대 섹션 제거
-                        document.querySelectorAll('.grade-section').forEach(section => {
-                            section.remove();
-                        });
-                        
-                        // 새로운 등급대 섹션 생성
+                        // 각 등급대별로 테이블 생성
                         gradeRanges.forEach(range => {
                             const data = gradeData[range.name];
                             
                             const sectionDiv = document.createElement('div');
                             sectionDiv.className = 'grade-section';
                             sectionDiv.setAttribute('data-grade', range.name);
-                            sectionDiv.style.display = 'none'; // 초기에는 모두 숨김
+                            sectionDiv.style.display = 'none';
                             
-                            const titleDiv = document.createElement('div');
-                            titleDiv.className = 'grade-title';
-                            
-                            const titleH2 = document.createElement('h2');
-                            titleH2.textContent = range.name;
-                            
-                            const countSpan = document.createElement('span');
-                            countSpan.className = 'grade-count';
-                            countSpan.textContent = `총 ${data.length}개 사례`;
-                            
-                            titleDiv.appendChild(titleH2);
-                            titleDiv.appendChild(countSpan);
-                            
+                            // 테이블 생성
                             const table = document.createElement('table');
-                            const thead = document.createElement('thead');
-                            const headerRow = document.createElement('tr');
+                            table.innerHTML = `
+                                <thead>
+                                    <tr>
+                                        <th>대학</th>
+                                        <th>계열</th>
+                                        <th>모집단위</th>
+                                        <th>전형분류</th>
+                                        <th>등급</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${data.map(entry => `
+                                        <tr>
+                                            <td>${entry.university}</td>
+                                            <td><span class="${entry.category}">${entry.category}</span></td>
+                                            <td>${entry.department}</td>
+                                            <td><span class="badge ${entry.admissionType}">${entry.admissionType}</span></td>
+                                            <td>${entry.grade}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            `;
                             
-                            ['대학', '계열', '모집단위', '전형유형'].forEach(header => {
-                                const th = document.createElement('th');
-                                th.textContent = header;
-                                headerRow.appendChild(th);
-                            });
-                            
-                            thead.appendChild(headerRow);
-                            table.appendChild(thead);
-                            
-                            const tbody = document.createElement('tbody');
-                            data.forEach(entry => {
-                                const row = document.createElement('tr');
-                                
-                                const universityCell = document.createElement('td');
-                                universityCell.textContent = entry.university;
-                                
-                                const categoryCell = document.createElement('td');
-                                const categorySpan = document.createElement('span');
-                                categorySpan.className = entry.category;
-                                categorySpan.textContent = entry.category;
-                                categoryCell.appendChild(categorySpan);
-                                
-                                const departmentCell = document.createElement('td');
-                                departmentCell.textContent = entry.department;
-                                
-                                const admissionCell = document.createElement('td');
-                                const admissionSpan = document.createElement('span');
-                                admissionSpan.className = `badge ${entry.admissionType}`;
-                                admissionSpan.textContent = entry.admissionType;
-                                admissionCell.appendChild(admissionSpan);
-                                
-                                row.appendChild(universityCell);
-                                row.appendChild(categoryCell);
-                                row.appendChild(departmentCell);
-                                row.appendChild(admissionCell);
-                                
-                                tbody.appendChild(row);
-                            });
-                            
-                            table.appendChild(tbody);
-                            
-                            sectionDiv.appendChild(titleDiv);
                             sectionDiv.appendChild(table);
                             
-                            // 네비게이션 다음에 삽입
+                            // 테이블을 등급대 네비게이션 다음에 추가
+                            const navigationDiv = document.querySelector('.grade-navigation');
                             navigationDiv.parentNode.insertBefore(sectionDiv, navigationDiv.nextSibling);
                         });
                         
@@ -348,26 +282,22 @@
                                 // 모든 버튼에서 active 클래스 제거
                                 gradeNavButtons.forEach(btn => btn.classList.remove('active'));
                                 
-                                // 클릭한 버튼에 active 클래스 추가
+                                // 클릭된 버튼에 active 클래스 추가
                                 this.classList.add('active');
                                 
-                                // 선택한 등급대 가져오기
-                                const selectedGrade = this.getAttribute('data-grade');
-                                
-                                // 해당 등급대만 표시하고 나머지는 숨기기
+                                // 모든 등급대 섹션 숨기기
                                 document.querySelectorAll('.grade-section').forEach(section => {
-                                    const grade = section.getAttribute('data-grade');
-                                    if (grade === selectedGrade) {
-                                        section.style.display = 'block';
-                                    } else {
-                                        section.style.display = 'none';
-                                    }
+                                    section.style.display = 'none';
                                 });
+                                
+                                // 선택된 등급대 섹션 표시
+                                const selectedGrade = this.getAttribute('data-grade');
+                                document.querySelector(`.grade-section[data-grade="${selectedGrade}"]`).style.display = 'block';
                             });
                         });
+                        
                     } catch (error) {
-                        console.error('데이터 처리 중 오류가 발생했습니다:', error);
-                        alert('데이터 처리 중 오류가 발생했습니다. 페이지를 새로고침하거나 나중에 다시 시도해주세요.');
+                        console.error('데이터 처리 중 오류:', error);
                     }
                 })
                 .catch(error => {
@@ -375,6 +305,29 @@
                     alert('데이터를 불러오는 중 오류가 발생했습니다. 페이지를 새로고침하거나 나중에 다시 시도해주세요.');
                 });
         });
+        
+        // CSV 라인 파싱 함수
+        function parseCSVLine(line) {
+            const values = [];
+            let inQuotes = false;
+            let currentValue = '';
+            
+            for (let j = 0; j < line.length; j++) {
+                const char = line[j];
+                
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    values.push(currentValue);
+                    currentValue = '';
+                } else {
+                    currentValue += char;
+                }
+            }
+            values.push(currentValue); // 마지막 값 추가
+            
+            return values;
+        }
     </script>
 
     <footer>
