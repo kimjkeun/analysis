@@ -114,44 +114,6 @@
         .학생부위주 { background-color: #f1c40f; color: black; }
         .기타 { background-color: #95a5a6; color: white; }
         
-        /* 필터 및 검색 기능 */
-        .filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-        }
-        .filter-group label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #4b70e2;
-        }
-        select, input {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        button {
-            background-color: #4b70e2;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #3a5bbf;
-        }
-        
         /* 등급대 네비게이션 */
         .grade-navigation {
             display: flex;
@@ -185,38 +147,6 @@
 
     <div class="description">
         <p>이 보고서는 2025학년도 금옥여고 졸업생들의 대학 수시 입시 결과를 등급대별로 분석한 자료입니다. 각 등급 범위에 따라 지원 가능한 대학, 계열, 모집단위, 전형유형을 확인할 수 있습니다.</p>
-    </div>
-
-    <div class="filters">
-        <div class="filter-group">
-            <label for="category-filter">계열</label>
-            <select id="category-filter">
-                <option value="all">전체 계열</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label for="admission-filter">전형 분류</label>
-            <select id="admission-filter">
-                <option value="all">전체 전형</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label for="grade-filter">등급 범위</label>
-            <select id="grade-filter">
-                <option value="all">전체 등급</option>
-                <option value="1.0-1.5등급">1.0-1.5등급</option>
-                <option value="1.5-2.0등급">1.5-2.0등급</option>
-                <option value="2.0-2.5등급">2.0-2.5등급</option>
-                <option value="2.5-3.0등급">2.5-3.0등급</option>
-                <option value="3.0-3.5등급">3.0-3.5등급</option>
-                <option value="3.5-4.0등급">3.5-4.0등급</option>
-                <option value="4.0-4.5등급">4.0-4.5등급</option>
-                <option value="4.5-5.0등급">4.5-5.0등급</option>
-                <option value="5.0-5.5등급">5.0-5.5등급</option>
-                <option value="5.5-6.0등급">5.5-6.0등급</option>
-                <option value="6.0등급 이상">6.0등급 이상</option>
-            </select>
-        </div>
     </div>
 
     <!-- 등급대 네비게이션 -->
@@ -434,61 +364,6 @@
                                     }
                                 });
                             });
-                        });
-                        
-                        // 필터링 기능
-                        const filterButton = document.getElementById('filter-button');
-                        filterButton.addEventListener('click', function() {
-                            const categoryFilter = document.getElementById('category-filter').value;
-                            const admissionFilter = document.getElementById('admission-filter').value;
-                            const gradeFilter = document.getElementById('grade-filter').value;
-                            
-                            // 현재 표시된 등급대 섹션 찾기
-                            const visibleSection = document.querySelector('.grade-section[style="display: block;"]');
-                            if (!visibleSection) return;
-                            
-                            // 해당 섹션의 모든 행 가져오기
-                            const rows = visibleSection.querySelectorAll('tbody tr');
-                            
-                            rows.forEach(row => {
-                                const category = row.cells[1].querySelector('span').className;
-                                const admission = row.cells[3].querySelector('span').className.split(' ')[1];
-                                
-                                // 필터 적용
-                                const matchesCategory = categoryFilter === 'all' || category === categoryFilter;
-                                const matchesAdmission = admissionFilter === 'all' || admission === admissionFilter;
-                                const matchesGrade = gradeFilter === 'all' || visibleSection.getAttribute('data-grade') === gradeFilter;
-                                
-                                // 모든 조건을 만족하면 표시, 아니면 숨김
-                                if (matchesCategory && matchesAdmission && matchesGrade) {
-                                    row.style.display = '';
-                                } else {
-                                    row.style.display = 'none';
-                                }
-                            });
-                        });
-                        
-                        // 필터 옵션 업데이트
-                        const categories = [...new Set(entries.map(entry => entry.category))].sort();
-                        const admissionTypes = [...new Set(entries.map(entry => entry.admissionType))].sort();
-
-                        const categoryFilter = document.getElementById('category-filter');
-                        const admissionFilter = document.getElementById('admission-filter');
-
-                        // 계열 필터 옵션 추가
-                        categories.forEach(category => {
-                            const option = document.createElement('option');
-                            option.value = category;
-                            option.textContent = category;
-                            categoryFilter.appendChild(option);
-                        });
-
-                        // 전형 분류 필터 옵션 추가
-                        admissionTypes.forEach(type => {
-                            const option = document.createElement('option');
-                            option.value = type;
-                            option.textContent = type;
-                            admissionFilter.appendChild(option);
                         });
                     } catch (error) {
                         console.error('데이터 처리 중 오류가 발생했습니다:', error);
