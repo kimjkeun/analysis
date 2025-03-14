@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025년 금옥여고 입시 결과 분석(중복포함)</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        header {
+            background-color: #4b70e2;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        h2 {
+            color: #4b70e2;
+            border-bottom: 2px solid #4b70e2;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        .description {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4b70e2;
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+        tr:hover {
+            background-color: #f1f3f9;
+        }
+        .grade-section {
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .grade-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .grade-count {
+            background-color: #4b70e2;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        .divider {
+            border-top: 1px dashed #ccc;
+            margin: 40px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        /* 계열별 색상 */
+        .인문 { color: #2c3e50; }
+        .자연 { color: #27ae60; }
+        .공통 { color: #8e44ad; }
+        .예체능 { color: #e74c3c; }
+        
+        /* 전형별 배지 스타일 */
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        .교과 { background-color: #3498db; color: white; }
+        .종합 { background-color: #2ecc71; color: white; }
+        .실기 { background-color: #e67e22; color: white; }
+        .면접위주 { background-color: #9b59b6; color: white; }
+        .학생부위주 { background-color: #f1c40f; color: black; }
+        .기타 { background-color: #95a5a6; color: white; }
+        
+        /* 필터 및 검색 기능 */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .filter-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #4b70e2;
+        }
+        select, input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4b70e2;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #3a5bbf;
+        }
+        
+        /* 등급대 네비게이션 */
+        .grade-navigation {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .grade-nav-btn {
+            background-color: #f8f9fa;
+            color: #333;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .grade-nav-btn:hover {
+            background-color: #e9ecef;
+        }
+        .grade-nav-btn.active {
+            background-color: #4b70e2;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>2025 금옥여고 입시 결과 분석(중복포함)</h1>
+        <p>등급대별 대학, 전형, 계열, 모집단위 종합 분석</p>
+    </header>
+
+    <div class="description">
+        <p>이 보고서는 2025학년도 금옥여고 졸업생들의 대학 입시 결과를 등급대별로 분석한 자료입니다. 각 등급 범위에 따라 지원 가능한 대학, 계열, 모집단위, 전형유형을 확인할 수 있습니다.</p>
+    </div>
+
+    <div class="filters">
+        <div class="filter-group">
+            <label for="grade-filter">등급 범위</label>
+            <select id="grade-filter">
+                <option value="all">전체 등급</option>
+                <option value="1.0-1.5등급">1.0-1.5등급</option>
+                <option value="1.5-2.0등급">1.5-2.0등급</option>
+                <option value="2.0-2.5등급">2.0-2.5등급</option>
+                <option value="2.5-3.0등급">2.5-3.0등급</option>
+                <option value="3.0-3.5등급">3.0-3.5등급</option>
+                <option value="3.5-4.0등급">3.5-4.0등급</option>
+                <option value="4.0-4.5등급">4.0-4.5등급</option>
+                <option value="4.5-5.0등급">4.5-5.0등급</option>
+                <option value="5.0-5.5등급">5.0-5.5등급</option>
+                <option value="5.5-6.0등급">5.5-6.0등급</option>
+                <option value="6.0등급 이상">6.0등급 이상</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="university-filter">대학</label>
+            <select id="university-filter">
+                <option value="all">전체 대학</option>
+                <option value="서울대">서울대</option>
+                <option value="연세대">연세대</option>
+                <option value="고려대">고려대</option>
+                <option value="서강대">서강대</option>
+                <option value="성균관대">성균관대</option>
+                <option value="한양대">한양대</option>
+                <option value="이화여대">이화여대</option>
+                <option value="중앙대">중앙대</option>
+                <option value="경희대">경희대</option>
+                <option value="한국외대">한국외대</option>
+                <option value="서울시립대">서울시립대</option>
+                <option value="건국대">건국대</option>
+                <option value="동국대">동국대</option>
+                <option value="홍익대">홍익대</option>
+                <option value="숙명여대">숙명여대</option>
+                <option value="국민대">국민대</option>
+                <option value="세종대">세종대</option>
+                <option value="단국대">단국대</option>
+                <option value="가톨릭대">가톨릭대</option>
+                <option value="숭실대">숭실대</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="category-filter">계열</label>
+            <select id="category-filter">
+                <option value="all">전체 계열</option>
+                <option value="인문">인문계열</option>
+                <option value="자연">자연계열</option>
+                <option value="예체능">예체능계열</option>
+                <option value="공통">공통계열</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="admission-filter">전형유형</label>
+            <select id="admission-filter">
+                <option value="all">전체 전형</option>
+                <option value="교과">교과</option>
+                <option value="종합">종합</option>
+                <option value="논술">논술</option>
+                <option value="실기">실기</option>
+                <option value="정시">정시</option>
+                <option value="학생부위주">학생부위주</option>
+                <option value="면접위주">면접위주</option>
+            </select>
+        </div>
+        <div class="filter-group" style="justify-content: flex-end;">
+            <label>&nbsp;</label>
+            <button id="filter-button">적용</button>
+        </div>
+    </div>
+
+    <!-- 등급대 네비게이션 -->
+    <div class="grade-navigation">
+        <button class="grade-nav-btn active" data-grade="1.0-1.5등급">1.0-1.5등급</button>
+        <button class="grade-nav-btn" data-grade="1.5-2.0등급">1.5-2.0등급</button>
+        <button class="grade-nav-btn" data-grade="2.0-2.5등급">2.0-2.5등급</button>
+        <button class="grade-nav-btn" data-grade="2.5-3.0등급">2.5-3.0등급</button>
+        <button class="grade-nav-btn" data-grade="3.0-3.5등급">3.0-3.5등급</button>
+        <button class="grade-nav-btn" data-grade="3.5-4.0등급">3.5-4.0등급</button>
+        <button class="grade-nav-btn" data-grade="4.0-4.5등급">4.0-4.5등급</button>
+        <button class="grade-nav-btn" data-grade="4.5-5.0등급">4.5-5.0등급</button>
+        <button class="grade-nav-btn" data-grade="5.0-5.5등급">5.0-5.5등급</button>
+        <button class="grade-nav-btn" data-grade="5.5-6.0등급">5.5-6.0등급</button>
+        <button class="grade-nav-btn" data-grade="6.0등급 이상">6.0등급 이상</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // CSV 파일 불러오기
+            fetch('Result.csv')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP 오류! 상태: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('CSV 데이터 로드 성공');
+                    
+                    try {
+                        // CSV 파싱
+                        const rows = data.split('\n');
+                        
+                        // 데이터 처리
+                        const entries = [];
+                        
+                        // 첫 번째 줄은 헤더, 두 번째 줄부터 데이터 처리
+                        for (let i = 1; i < rows.length; i++) {
+                            if (rows[i].trim() === '') continue;
+                            
+                            // 값 추출
+                            const values = parseCSVLine(rows[i]);
+                            
+                            if (values.length >= 5) {
+                                const entry = {
+                                    university: values[0],
+                                    category: values[1],
+                                    department: values[2],
+                                    admissionType: values[3],
+                                    grade: parseFloat(values[4])
+                                };
+                                
+                                // 유효한 등급 값인지 확인
+                                if (!isNaN(entry.grade)) {
+                                    entries.push(entry);
+                                }
+                            }
+                        }
+                        
+                        // CSV 라인 파싱 함수
+                        function parseCSVLine(line) {
+                            const values = [];
+                            let inQuotes = false;
+                            let currentValue = '';
+                            
+                            for (let j = 0; j < line.length; j++) {
+                                const char = line[j];
+                                
+                                if (char === '"') {
+                                    inQuotes = !inQuotes;
+                                } else if (char === ',' && !inQuotes) {
+                                    values.push(currentValue);
+                                    currentValue = '';
+                                } else {
+                                    currentValue += char;
+                                }
+                            }
+                            values.push(currentValue); // 마지막 값 추가
+                            
+                            return values;
+                        }
+                        
+                        console.log(`총 ${entries.length}개의 데이터를 로드했습니다.`);
+                        
+                        // 등급대별로 데이터 분류
+                        const gradeRanges = [
+                            { name: '1.0-1.5등급', min: 1.0, max: 1.5 },
+                            { name: '1.5-2.0등급', min: 1.5, max: 2.0 },
+                            { name: '2.0-2.5등급', min: 2.0, max: 2.5 },
+                            { name: '2.5-3.0등급', min: 2.5, max: 3.0 },
+                            { name: '3.0-3.5등급', min: 3.0, max: 3.5 },
+                            { name: '3.5-4.0등급', min: 3.5, max: 4.0 },
+                            { name: '4.0-4.5등급', min: 4.0, max: 4.5 },
+                            { name: '4.5-5.0등급', min: 4.5, max: 5.0 },
+                            { name: '5.0-5.5등급', min: 5.0, max: 5.5 },
+                            { name: '5.5-6.0등급', min: 5.5, max: 6.0 },
+                            { name: '6.0등급 이상', min: 6.0, max: 9.9 }
+                        ];
+                        
+                        const gradeData = {};
+                        gradeRanges.forEach(range => {
+                            gradeData[range.name] = entries.filter(entry => 
+                                entry.grade >= range.min && (range.name === '6.0등급 이상' ? true : entry.grade < range.max)
+                            );
+                        });
+                        
+                        // 등급대 섹션 생성
+                        const container = document.querySelector('body');
+                        const navigationDiv = document.querySelector('.grade-navigation');
+                        
+                        // 기존 등급대 섹션 제거
+                        document.querySelectorAll('.grade-section').forEach(section => {
+                            section.remove();
+                        });
+                        
+                        // 새로운 등급대 섹션 생성
+                        gradeRanges.forEach(range => {
+                            const data = gradeData[range.name];
+                            
+                            const sectionDiv = document.createElement('div');
+                            sectionDiv.className = 'grade-section';
+                            sectionDiv.setAttribute('data-grade', range.name);
+                            sectionDiv.style.display = 'none'; // 초기에는 모두 숨김
+                            
+                            const titleDiv = document.createElement('div');
+                            titleDiv.className = 'grade-title';
+                            
+                            const titleH2 = document.createElement('h2');
+                            titleH2.textContent = range.name;
+                            
+                            const countSpan = document.createElement('span');
+                            countSpan.className = 'grade-count';
+                            countSpan.textContent = `총 ${data.length}개 사례`;
+                            
+                            titleDiv.appendChild(titleH2);
+                            titleDiv.appendChild(countSpan);
+                            
+                            const table = document.createElement('table');
+                            const thead = document.createElement('thead');
+                            const headerRow = document.createElement('tr');
+                            
+                            ['대학', '계열', '모집단위', '전형유형'].forEach(header => {
+                                const th = document.createElement('th');
+                                th.textContent = header;
+                                headerRow.appendChild(th);
+                            });
+                            
+                            thead.appendChild(headerRow);
+                            table.appendChild(thead);
+                            
+                            const tbody = document.createElement('tbody');
+                            data.forEach(entry => {
+                                const row = document.createElement('tr');
+                                
+                                const universityCell = document.createElement('td');
+                                universityCell.textContent = entry.university;
+                                
+                                const categoryCell = document.createElement('td');
+                                const categorySpan = document.createElement('span');
+                                categorySpan.className = entry.category;
+                                categorySpan.textContent = entry.category;
+                                categoryCell.appendChild(categorySpan);
+                                
+                                const departmentCell = document.createElement('td');
+                                departmentCell.textContent = entry.department;
+                                
+                                const admissionCell = document.createElement('td');
+                                const admissionSpan = document.createElement('span');
+                                admissionSpan.className = `badge ${entry.admissionType}`;
+                                admissionSpan.textContent = entry.admissionType;
+                                admissionCell.appendChild(admissionSpan);
+                                
+                                row.appendChild(universityCell);
+                                row.appendChild(categoryCell);
+                                row.appendChild(departmentCell);
+                                row.appendChild(admissionCell);
+                                
+                                tbody.appendChild(row);
+                            });
+                            
+                            table.appendChild(tbody);
+                            
+                            sectionDiv.appendChild(titleDiv);
+                            sectionDiv.appendChild(table);
+                            
+                            // 네비게이션 다음에 삽입
+                            navigationDiv.parentNode.insertBefore(sectionDiv, navigationDiv.nextSibling);
+                        });
+                        
+                        // 초기 등급대 표시 (1.0-1.5등급)
+                        const initialGrade = '1.0-1.5등급';
+                        document.querySelector(`.grade-section[data-grade="${initialGrade}"]`).style.display = 'block';
+                        
+                        // 등급대 네비게이션 버튼 이벤트
+                        const gradeNavButtons = document.querySelectorAll('.grade-nav-btn');
+                        gradeNavButtons.forEach(button => {
+                            button.addEventListener('click', function() {
+                                // 모든 버튼에서 active 클래스 제거
+                                gradeNavButtons.forEach(btn => btn.classList.remove('active'));
+                                
+                                // 클릭한 버튼에 active 클래스 추가
+                                this.classList.add('active');
+                                
+                                // 선택한 등급대 가져오기
+                                const selectedGrade = this.getAttribute('data-grade');
+                                
+                                // 해당 등급대만 표시하고 나머지는 숨기기
+                                document.querySelectorAll('.grade-section').forEach(section => {
+                                    const grade = section.getAttribute('data-grade');
+                                    if (grade === selectedGrade) {
+                                        section.style.display = 'block';
+                                    } else {
+                                        section.style.display = 'none';
+                                    }
+                                });
+                            });
+                        });
+                        
+                        // 필터링 기능
+                        const filterButton = document.getElementById('filter-button');
+                        filterButton.addEventListener('click', function() {
+                            const gradeFilter = document.getElementById('grade-filter').value;
+                            const universityFilter = document.getElementById('university-filter').value;
+                            const categoryFilter = document.getElementById('category-filter').value;
+                            const admissionFilter = document.getElementById('admission-filter').value;
+                            
+                            // 현재 표시된 등급대 섹션 찾기
+                            const visibleSection = document.querySelector('.grade-section[style="display: block;"]');
+                            if (!visibleSection) return;
+                            
+                            // 해당 섹션의 모든 행 가져오기
+                            const rows = visibleSection.querySelectorAll('tbody tr');
+                            
+                            rows.forEach(row => {
+                                const university = row.cells[0].textContent.trim();
+                                const category = row.cells[1].querySelector('span').className;
+                                const admission = row.cells[3].querySelector('span').className.split(' ')[1];
+                                
+                                // 필터 적용
+                                const matchesUniversity = universityFilter === 'all' || university.includes(universityFilter);
+                                const matchesCategory = categoryFilter === 'all' || category === categoryFilter;
+                                const matchesAdmission = admissionFilter === 'all' || admission === admissionFilter;
+                                
+                                // 모든 조건을 만족하면 표시, 아니면 숨김
+                                if (matchesUniversity && matchesCategory && matchesAdmission) {
+                                    row.style.display = '';
+                                } else {
+                                    row.style.display = 'none';
+                                }
+                            });
+                        });
+                    } catch (error) {
+                        console.error('데이터 처리 중 오류가 발생했습니다:', error);
+                        alert('데이터 처리 중 오류가 발생했습니다. 페이지를 새로고침하거나 나중에 다시 시도해주세요.');
+                    }
+                })
+                .catch(error => {
+                    console.error('CSV 파일을 불러오는 중 오류가 발생했습니다:', error);
+                    alert('데이터를 불러오는 중 오류가 발생했습니다. 페이지를 새로고침하거나 나중에 다시 시도해주세요.');
+                });
+        });
+    </script>
+
+    <footer>
+        <p>본 분석 자료는 2024학년도 입시 결과를 기반으로 작성되었습니다.</p>
+    </footer>
+</body>
+</html>
