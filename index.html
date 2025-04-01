@@ -8,61 +8,100 @@
     <title>2025년 금옥여고 입시 결과 분석(중복포함)</title>
     <style>
         body {
-            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            font-family: 'Noto Sans KR', sans-serif;
             line-height: 1.6;
             color: #333;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f8f9fa;
         }
+        
         header {
-            background-color: #4b70e2;
-            color: white;
-            padding: 20px;
             text-align: center;
-            border-radius: 5px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
         }
-        h1 {
-            margin: 0;
-            font-size: 2.5em;
+        
+        h1, h2, h3, h4 {
+            color: #2c3e50;
         }
-        h2 {
-            color: #4b70e2;
-            border-bottom: 2px solid #4b70e2;
-            padding-bottom: 10px;
-            margin-top: 40px;
-        }
-        .description {
-            background-color: #e9ecef;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
+        
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 30px;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            table-layout: fixed; /* 고정 너비 레이아웃 사용 */
         }
+        
         th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: center; /* 중앙 정렬로 변경 */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
-        th {
-            background-color: #4b70e2;
+        
+        /* 열 너비 고정 */
+        th:nth-child(1), td:nth-child(1) { width: 20%; } /* 대학 */
+        th:nth-child(2), td:nth-child(2) { width: 30%; } /* 모집단위 */
+        th:nth-child(3), td:nth-child(3) { width: 15%; } /* 전형 */
+        th:nth-child(4), td:nth-child(4) { width: 10%; } /* 연도 */
+        th:nth-child(5), td:nth-child(5) { width: 10%; } /* 내신등급 */
+        th:nth-child(6), td:nth-child(6) { width: 15%; } /* 수능등급 */
+        
+        /* 모집단위 열은 텍스트가 길 수 있으므로 마우스 오버 시 툴팁 표시 */
+        td:nth-child(2) {
+            position: relative;
+        }
+        
+        td:nth-child(2):hover::after {
+            content: attr(title);
+            position: absolute;
+            left: 0;
+            top: 100%;
+            background-color: #333;
             color: white;
-            position: sticky;
-            top: 0;
+            padding: 5px;
+            border-radius: 3px;
+            z-index: 1;
+            white-space: normal;
+            max-width: 300px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+        
+        th {
+            background-color: #f2f2f2;
+            cursor: pointer;
+        }
+        
+        th:hover {
+            background-color: #e6e6e6;
+        }
+        
+        th.active {
+            background-color: #ddd;
+        }
+        
+        th.asc:after {
+            content: " ▲";
+            font-size: 0.8em;
+        }
+        
+        th.desc:after {
+            content: " ▼";
+            font-size: 0.8em;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
         tr:hover {
-            background-color: #f1f3f9;
+            background-color: #f1f1f1;
         }
+        
         .grade-section {
             background-color: white;
             border-radius: 5px;
@@ -70,11 +109,13 @@
             margin-bottom: 30px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+        
         .grade-title {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+        
         .grade-count {
             background-color: #4b70e2;
             color: white;
@@ -82,10 +123,12 @@
             border-radius: 20px;
             font-size: 0.9em;
         }
+        
         .divider {
             border-top: 1px dashed #ccc;
             margin: 40px 0;
         }
+        
         footer {
             text-align: center;
             margin-top: 50px;
@@ -93,11 +136,43 @@
             color: #6c757d;
             font-size: 0.9em;
         }
+        
         /* 계열별 색상 */
         .인문 { color: #2c3e50; }
         .자연 { color: #27ae60; }
         .공통 { color: #8e44ad; }
         .예체능 { color: #e74c3c; }
+        
+        /* 계열 섹션 제목 스타일 */
+        .category-title {
+            background-color: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-left: 5px solid;
+        }
+        
+        .category-title.인문 {
+            border-left-color: #2c3e50;
+            color: #2c3e50;
+        }
+        
+        .category-title.자연 {
+            border-left-color: #27ae60;
+            color: #27ae60;
+        }
+        
+        .category-title.공통 {
+            border-left-color: #3498db;
+            color: #3498db;
+        }
+        
+        .category-title.예체능 {
+            border-left-color: #e74c3c;
+            color: #e74c3c;
+        }
         
         /* 전형별 배지 스타일 */
         .badge {
@@ -141,12 +216,13 @@
 </head>
 <body>
     <header>
-        <h1>2025 금옥여고 수시 입시 결과 분석(중복포함)</h1>
-        <p>등급대별 대학, 전형, 계열, 모집단위 종합 분석</p>
+        <h1>금옥여고 수시 입시 결과 분석</h1>
+        <p>등급대별 대학, 전형, 계열, 모집단위 종합 분석 (계열별 구분)</p>
     </header>
 
     <div class="description">
         <p>이 보고서는 2025학년도 금옥여고 졸업생들의 대학 수시 입시 결과를 등급대별로 분석한 자료입니다. 각 등급 범위에 따라 지원 가능한 대학, 계열, 모집단위, 전형유형을 확인할 수 있습니다.</p>
+        <p>※ 연도별 데이터와 수능등급 정보도 함께 제공됩니다.</p>
     </div>
 
     <!-- 등급대 네비게이션 -->
@@ -166,144 +242,440 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // CSV 파일 불러오기
-            fetch('Result.csv')
+            // Excel 파일 불러오기 (SheetJS 라이브러리 사용)
+            fetch('입시결과.xlsx')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP 오류! 상태: ${response.status}`);
                     }
-                    return response.text();
+                    return response.arrayBuffer();
                 })
                 .then(data => {
-                    console.log('CSV 데이터 로드 완료');
+                    console.log('Excel 데이터 로드 완료');
                     
                     try {
-                        // CSV 파싱
-                        const rows = data.split('\n');
+                        // SheetJS 라이브러리 로드
+                        const script = document.createElement('script');
+                        script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+                        document.head.appendChild(script);
                         
-                        // 데이터 처리
-                        const entries = [];
-                        
-                        // 첫 번째 줄은 헤더, 두 번째 줄부터 데이터 처리
-                        for (let i = 1; i < rows.length; i++) {
-                            if (rows[i].trim() === '') continue;
+                        script.onload = function() {
+                            // Excel 파일 파싱
+                            const workbook = XLSX.read(data, { type: 'array' });
+                            const firstSheetName = workbook.SheetNames[0];
+                            const worksheet = workbook.Sheets[firstSheetName];
                             
-                            // 값 추출
-                            const values = parseCSVLine(rows[i]);
+                            // JSON으로 변환
+                            const jsonData = XLSX.utils.sheet_to_json(worksheet);
                             
-                            if (values.length >= 5) {
-                                const entry = {
-                                    university: values[0],
-                                    category: values[1],
-                                    department: values[2],
-                                    admissionType: values[3],
-                                    grade: parseFloat(values[4])
-                                };
-                                
-                                // 유효한 등급 값인지 확인
-                                if (!isNaN(entry.grade)) {
-                                    entries.push(entry);
-                                }
-                            }
-                        }
-                        
-                        // 등급대별로 데이터 분류
-                        const gradeRanges = [
-                            { name: '1.0-1.5등급', min: 1.0, max: 1.5 },
-                            { name: '1.5-2.0등급', min: 1.5, max: 2.0 },
-                            { name: '2.0-2.5등급', min: 2.0, max: 2.5 },
-                            { name: '2.5-3.0등급', min: 2.5, max: 3.0 },
-                            { name: '3.0-3.5등급', min: 3.0, max: 3.5 },
-                            { name: '3.5-4.0등급', min: 3.5, max: 4.0 },
-                            { name: '4.0-4.5등급', min: 4.0, max: 4.5 },
-                            { name: '4.5-5.0등급', min: 4.5, max: 5.0 },
-                            { name: '5.0-5.5등급', min: 5.0, max: 5.5 },
-                            { name: '5.5-6.0등급', min: 5.5, max: 6.0 },
-                            { name: '6.0등급 이상', min: 6.0, max: 9.9 }
-                        ];
-                        
-                        // 등급대별로 데이터 정리
-                        const gradeData = {};
-                        gradeRanges.forEach(range => {
-                            gradeData[range.name] = entries.filter(entry => 
-                                entry.grade >= range.min && entry.grade < range.max
-                            );
-                        });
-                        
-                        // 각 등급대별로 테이블 생성
-                        gradeRanges.forEach(range => {
-                            const data = gradeData[range.name];
-                            
-                            const sectionDiv = document.createElement('div');
-                            sectionDiv.className = 'grade-section';
-                            sectionDiv.setAttribute('data-grade', range.name);
-                            sectionDiv.style.display = 'none';
-                            
-                            // 테이블 생성
-                            const table = document.createElement('table');
-                            table.innerHTML = `
-                                <thead>
-                                    <tr>
-                                        <th>대학</th>
-                                        <th>계열</th>
-                                        <th>모집단위</th>
-                                        <th>전형분류</th>
-                                        <th>등급</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${data.map(entry => `
-                                        <tr>
-                                            <td>${entry.university}</td>
-                                            <td><span class="${entry.category}">${entry.category}</span></td>
-                                            <td>${entry.department}</td>
-                                            <td><span class="badge ${entry.admissionType}">${entry.admissionType}</span></td>
-                                            <td>${entry.grade}</td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            `;
-                            
-                            sectionDiv.appendChild(table);
-                            
-                            // 테이블을 등급대 네비게이션 다음에 추가
-                            const navigationDiv = document.querySelector('.grade-navigation');
-                            navigationDiv.parentNode.insertBefore(sectionDiv, navigationDiv.nextSibling);
-                        });
-                        
-                        // 초기 등급대 표시 (1.0-1.5등급)
-                        const initialGrade = '1.0-1.5등급';
-                        document.querySelector(`.grade-section[data-grade="${initialGrade}"]`).style.display = 'block';
-                        
-                        // 등급대 네비게이션 버튼 이벤트
-                        const gradeNavButtons = document.querySelectorAll('.grade-nav-btn');
-                        gradeNavButtons.forEach(button => {
-                            button.addEventListener('click', function() {
-                                // 모든 버튼에서 active 클래스 제거
-                                gradeNavButtons.forEach(btn => btn.classList.remove('active'));
-                                
-                                // 클릭된 버튼에 active 클래스 추가
-                                this.classList.add('active');
-                                
-                                // 모든 등급대 섹션 숨기기
-                                document.querySelectorAll('.grade-section').forEach(section => {
-                                    section.style.display = 'none';
-                                });
-                                
-                                // 선택된 등급대 섹션 표시
-                                const selectedGrade = this.getAttribute('data-grade');
-                                document.querySelector(`.grade-section[data-grade="${selectedGrade}"]`).style.display = 'block';
-                            });
-                        });
-                        
+                            // 데이터 처리
+                            processData(jsonData);
+                        };
                     } catch (error) {
                         console.error('데이터 처리 중 오류:', error);
+                        fallbackToCSV();
                     }
                 })
                 .catch(error => {
-                    console.error('CSV 파일을 불러오는 중 오류가 발생했습니다:', error);
-                    alert('데이터를 불러오는 중 오류가 발생했습니다. 페이지를 새로고침하거나 나중에 다시 시도해주세요.');
+                    console.error('Excel 파일을 불러오는 중 오류가 발생했습니다:', error);
+                    fallbackToCSV();
                 });
+                
+            // CSV 파일로 대체하는 함수
+            function fallbackToCSV() {
+                console.log('CSV 파일로 대체합니다.');
+                fetch('Result.csv')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP 오류! 상태: ${response.status}`);
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        console.log('CSV 데이터 로드 완료');
+                        
+                        try {
+                            // CSV 파싱
+                            const rows = data.split('\n');
+                            
+                            // 데이터 처리
+                            const entries = [];
+                            
+                            // 첫 번째 줄은 헤더, 두 번째 줄부터 데이터 처리
+                            for (let i = 1; i < rows.length; i++) {
+                                if (rows[i].trim() === '') continue;
+                                
+                                // 값 추출
+                                const values = parseCSVLine(rows[i]);
+                                
+                                if (values.length >= 5) {
+                                    const entry = {
+                                        university: values[0],
+                                        category: values[1],
+                                        department: values[2],
+                                        admissionType: values[3],
+                                        grade: parseFloat(values[4])
+                                    };
+                                    
+                                    entries.push(entry);
+                                }
+                            }
+                            
+                            processLegacyData(entries);
+                        } catch (error) {
+                            console.error('CSV 데이터 처리 중 오류:', error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('CSV 파일을 불러오는 중 오류가 발생했습니다:', error);
+                        alert('데이터를 불러오는 중 오류가 발생했습니다. 페이지를 새로고침하거나 나중에 다시 시도해주세요.');
+                    });
+            }
+            
+            // Excel 데이터 처리 함수
+            function processData(jsonData) {
+                const entries = [];
+                
+                jsonData.forEach(row => {
+                    const entry = {
+                        year: row['년도'],
+                        university: row['대학'],
+                        category: row['계열'],
+                        department: row['모집단위'],
+                        admissionType: row['전형명'],
+                        grade: parseFloat(row['전과목']),
+                        suneung: {
+                            korean: row['국'],
+                            math: row['수'],
+                            english: row['영'],
+                            tam1: row['탐1'],
+                            tam2: row['탐2']
+                        }
+                    };
+                    
+                    entries.push(entry);
+                });
+                
+                // 데이터 분석 및 표시
+                analyzeAndDisplayData(entries);
+            }
+            
+            // 기존 CSV 데이터 처리 함수 (호환성 유지)
+            function processLegacyData(entries) {
+                // 기존 데이터에는 연도와 수능 정보가 없으므로 기본값 설정
+                entries.forEach(entry => {
+                    entry.year = 2024; // 기본 연도 설정
+                    entry.suneung = {
+                        korean: null,
+                        math: null,
+                        english: null,
+                        tam1: null,
+                        tam2: null
+                    };
+                });
+                
+                // 데이터 분석 및 표시
+                analyzeAndDisplayData(entries);
+            }
+            
+            // 데이터 분석 및 표시 함수
+            function analyzeAndDisplayData(entries) {
+                // 등급 범위 정의
+                const gradeRanges = [
+                    { min: 1.0, max: 1.5, name: '1.0-1.5등급' },
+                    { min: 1.5, max: 2.0, name: '1.5-2.0등급' },
+                    { min: 2.0, max: 2.5, name: '2.0-2.5등급' },
+                    { min: 2.5, max: 3.0, name: '2.5-3.0등급' },
+                    { min: 3.0, max: 3.5, name: '3.0-3.5등급' },
+                    { min: 3.5, max: 4.0, name: '3.5-4.0등급' },
+                    { min: 4.0, max: 4.5, name: '4.0-4.5등급' },
+                    { min: 4.5, max: 5.0, name: '4.5-5.0등급' },
+                    { min: 5.0, max: 5.5, name: '5.0-5.5등급' },
+                    { min: 5.5, max: 6.0, name: '5.5-6.0등급' },
+                    { min: 6.0, max: 9.0, name: '6.0등급 이상' }
+                ];
+                
+                // 등급별 데이터 분류
+                const gradeData = {};
+                
+                gradeRanges.forEach(range => {
+                    const filteredEntries = entries.filter(entry => 
+                        entry.grade >= range.min && entry.grade < range.max
+                    );
+                    
+                    if (filteredEntries.length > 0) {
+                        // 연도별 카운트 추가
+                        const years = {};
+                        filteredEntries.forEach(entry => {
+                            years[entry.year] = (years[entry.year] || 0) + 1;
+                        });
+                        
+                        gradeData[range.name] = {
+                            entries: filteredEntries,
+                            years: years
+                        };
+                    }
+                });
+                
+                // UI 생성
+                const container = document.querySelector('body');
+                const header = document.querySelector('header');
+                const description = document.querySelector('.description');
+                const navigation = document.querySelector('.grade-navigation');
+                
+                // 기존 내용 제거 (헤더, 설명, 네비게이션 제외)
+                Array.from(container.children).forEach(child => {
+                    if (child !== header && child !== description && child !== navigation && child.tagName !== 'SCRIPT') {
+                        container.removeChild(child);
+                    }
+                });
+                
+                // 등급대별 섹션 생성
+                gradeRanges.forEach(range => {
+                    const data = gradeData[range.name];
+                    
+                    if (!data) return; // 데이터가 없으면 건너뛰기
+                    
+                    const sectionDiv = document.createElement('div');
+                    sectionDiv.className = 'grade-section';
+                    sectionDiv.id = range.name;
+                    sectionDiv.style.display = 'none'; // 초기에는 모두 숨김
+                    
+                    // 등급대 제목
+                    const titleDiv = document.createElement('div');
+                    titleDiv.className = 'grade-title';
+                    
+                    const titleH2 = document.createElement('h2');
+                    titleH2.textContent = range.name;
+                    
+                    const countSpan = document.createElement('span');
+                    countSpan.className = 'grade-count';
+                    countSpan.textContent = `${data.entries.length}개 사례`;
+                    
+                    titleDiv.appendChild(titleH2);
+                    titleDiv.appendChild(countSpan);
+                    sectionDiv.appendChild(titleDiv);
+                    
+                    // 상세 목록
+                    const detailDiv = document.createElement('div');
+                    
+                    // 계열별로 데이터 분류
+                    const categoryData = {
+                        '인문': [],
+                        '자연': [],
+                        '공통': [],
+                        '예체능': []
+                    };
+                    
+                    // 각 계열별로 데이터 분류
+                    data.entries.forEach(entry => {
+                        if (categoryData[entry.category]) {
+                            categoryData[entry.category].push(entry);
+                        }
+                    });
+                    
+                    // 각 계열별로 테이블 생성
+                    for (const [category, entries] of Object.entries(categoryData)) {
+                        if (entries.length > 0) {
+                            const categoryDiv = document.createElement('div');
+                            categoryDiv.className = 'category-section';
+                            
+                            // 계열별 제목 스타일 적용
+                            const categoryTitle = document.createElement('div');
+                            categoryTitle.className = `category-title ${category}`;
+                            categoryTitle.textContent = `${category} 계열 (${entries.length}개)`;
+                            categoryDiv.appendChild(categoryTitle);
+                            
+                            // 정렬 상태 저장 객체
+                            const sortState = {
+                                column: 'university', // 기본 정렬 컬럼
+                                direction: 'asc'      // 기본 정렬 방향
+                            };
+                            
+                            // 정렬 함수
+                            const sortEntries = (entries, column, direction) => {
+                                return [...entries].sort((a, b) => {
+                                    let valueA, valueB;
+                                    
+                                    switch(column) {
+                                        case 'university':
+                                            valueA = a.university;
+                                            valueB = b.university;
+                                            break;
+                                        case 'admissionType':
+                                            valueA = a.admissionType;
+                                            valueB = b.admissionType;
+                                            break;
+                                        case 'year':
+                                            valueA = parseInt(a.year);
+                                            valueB = parseInt(b.year);
+                                            break;
+                                        case 'grade':
+                                            valueA = parseFloat(a.grade);
+                                            valueB = parseFloat(b.grade);
+                                            break;
+                                        default:
+                                            valueA = a.university;
+                                            valueB = b.university;
+                                    }
+                                    
+                                    if (valueA < valueB) return direction === 'asc' ? -1 : 1;
+                                    if (valueA > valueB) return direction === 'asc' ? 1 : -1;
+                                    return 0;
+                                });
+                            };
+                            
+                            // 초기 정렬된 데이터
+                            let sortedEntries = sortEntries(entries, sortState.column, sortState.direction);
+                            
+                            // 테이블 생성 함수
+                            const createTable = (sortedEntries) => {
+                                const table = document.createElement('table');
+                                table.className = 'sortable-table';
+                                
+                                // 테이블 헤더
+                                const thead = document.createElement('thead');
+                                thead.innerHTML = `
+                                    <tr>
+                                        <th data-sort="university" class="${sortState.column === 'university' ? sortState.direction : ''}">대학</th>
+                                        <th>모집단위</th>
+                                        <th data-sort="admissionType" class="${sortState.column === 'admissionType' ? sortState.direction : ''}">전형</th>
+                                        <th data-sort="year" class="${sortState.column === 'year' ? sortState.direction : ''}">연도</th>
+                                        <th data-sort="grade" class="${sortState.column === 'grade' ? sortState.direction : ''}">내신등급</th>
+                                        <th>수능등급
+                                            <br>(국수영탐1탐2)</th>
+                                    </tr>
+                                `;
+                                
+                                // 테이블 바디
+                                const tbody = document.createElement('tbody');
+                                tbody.innerHTML = sortedEntries.map(entry => {
+                                    // 수능 등급 문자열 생성 (숫자 나열 방식)
+                                    let suneungText = '';
+                                    if (entry.suneung.korean) suneungText += entry.suneung.korean;
+                                    if (entry.suneung.math) suneungText += entry.suneung.math;
+                                    if (entry.suneung.english) suneungText += entry.suneung.english;
+                                    if (entry.suneung.tam1) suneungText += entry.suneung.tam1;
+                                    if (entry.suneung.tam2) suneungText += entry.suneung.tam2;
+                                    
+                                    // 수능 등급 정보가 없는 경우 '-' 표시
+                                    if (suneungText === '') suneungText = '-';
+                                    
+                                    return `
+                                        <tr>
+                                            <td title="${entry.university}">${entry.university}</td>
+                                            <td title="${entry.department}">${entry.department}</td>
+                                            <td><span class="badge ${getBadgeClass(entry.admissionType)}">${entry.admissionType}</span></td>
+                                            <td>${entry.year}년</td>
+                                            <td>${entry.grade.toFixed(3)}</td>
+                                            <td>${suneungText}</td>
+                                        </tr>
+                                    `;
+                                }).join('');
+                                
+                                table.appendChild(thead);
+                                table.appendChild(tbody);
+                                return table;
+                            };
+                            
+                            // 초기 테이블 생성
+                            const categoryTable = createTable(sortedEntries);
+                            categoryDiv.appendChild(categoryTable);
+                            
+                            // 정렬 이벤트 추가
+                            categoryDiv.addEventListener('click', (e) => {
+                                const target = e.target;
+                                if (target.tagName === 'TH' && target.dataset.sort) {
+                                    const column = target.dataset.sort;
+                                    
+                                    // 정렬 방향 결정
+                                    let direction = 'asc';
+                                    if (sortState.column === column) {
+                                        direction = sortState.direction === 'asc' ? 'desc' : 'asc';
+                                    }
+                                    
+                                    // 정렬 상태 업데이트
+                                    sortState.column = column;
+                                    sortState.direction = direction;
+                                    
+                                    // 데이터 정렬
+                                    sortedEntries = sortEntries(entries, column, direction);
+                                    
+                                    // 테이블 재생성
+                                    const newTable = createTable(sortedEntries);
+                                    const oldTable = categoryDiv.querySelector('.sortable-table');
+                                    if (oldTable) {
+                                        categoryDiv.replaceChild(newTable, oldTable);
+                                    }
+                                }
+                            });
+                            
+                            detailDiv.appendChild(categoryDiv);
+                        }
+                    }
+                    
+                    sectionDiv.appendChild(detailDiv);
+                    container.appendChild(sectionDiv);
+                });
+                
+                // 푸터 추가
+                const footer = document.createElement('footer');
+                footer.innerHTML = `
+                    <p>본 분석 자료는 2023-2025학년도 입시 결과를 기반으로 작성되었습니다.</p>
+                    <p>마지막 업데이트: ${new Date().toLocaleDateString()}</p>
+                `;
+                container.appendChild(footer);
+                
+                // 네비게이션 이벤트 설정
+                const navButtons = document.querySelectorAll('.grade-nav-btn');
+                navButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        // 모든 섹션 숨기기
+                        document.querySelectorAll('.grade-section').forEach(section => {
+                            section.style.display = 'none';
+                        });
+                        
+                        // 모든 버튼 비활성화
+                        navButtons.forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        
+                        // 선택된 섹션 표시
+                        const gradeSection = document.getElementById(this.dataset.grade);
+                        if (gradeSection) {
+                            gradeSection.style.display = 'block';
+                        }
+                        
+                        // 선택된 버튼 활성화
+                        this.classList.add('active');
+                    });
+                });
+                
+                // 첫 번째 등급대 표시
+                const firstButton = document.querySelector('.grade-nav-btn');
+                if (firstButton) {
+                    firstButton.click();
+                }
+            }
+            
+            // 평균 계산 함수
+            function calculateAverage(values) {
+                const validValues = values.filter(v => v !== null && v !== undefined);
+                if (validValues.length === 0) return null;
+                
+                const sum = validValues.reduce((acc, val) => acc + val, 0);
+                return sum / validValues.length;
+            }
+            
+            // 전형 유형에 따른 배지 클래스 반환
+            function getBadgeClass(admissionType) {
+                if (admissionType.includes('교과')) return '교과';
+                if (admissionType.includes('종합')) return '종합';
+                if (admissionType.includes('실기')) return '실기';
+                if (admissionType.includes('면접')) return '면접위주';
+                if (admissionType.includes('학생부')) return '학생부위주';
+                return '기타';
+            }
         });
         
         // CSV 라인 파싱 함수
@@ -331,7 +703,8 @@
     </script>
 
     <footer>
-        <p>본 분석 자료는 2024학년도 입시 결과를 기반으로 작성되었습니다.</p>
+        <p>본 분석 자료는 2023-2025학년도 입시 결과를 기반으로 작성되었습니다.</p>
+        <p>마지막 업데이트: <span id="update-date"></span></p>
     </footer>
 </body>
 </html>
