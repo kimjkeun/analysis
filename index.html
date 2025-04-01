@@ -14,13 +14,32 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            background-color: #f5f7fa;
         }
         
         header {
             text-align: center;
             margin-bottom: 30px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 20px;
+            background-color: #4a5db1;
+            color: white;
+            padding: 30px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2.8em;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 1px;
+        }
+        
+        header p {
+            margin: 10px 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+            color: white;
         }
         
         h1, h2, h3, h4 {
@@ -32,11 +51,15 @@
             border-collapse: collapse;
             margin-bottom: 20px;
             table-layout: fixed; /* 고정 너비 레이아웃 사용 */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background-color: white;
+            border-radius: 5px;
+            overflow: hidden;
         }
         
         th, td {
-            border: 1px solid #ddd;
-            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            padding: 10px 12px;
             text-align: center; /* 중앙 정렬로 변경 */
             overflow: hidden;
             text-overflow: ellipsis;
@@ -72,16 +95,18 @@
         }
         
         th {
-            background-color: #f2f2f2;
+            background-color: #eef1fd;
             cursor: pointer;
+            font-weight: 600;
+            color: #3f51b5;
         }
         
         th:hover {
-            background-color: #e6e6e6;
+            background-color: #e6ecff;
         }
         
         th.active {
-            background-color: #ddd;
+            background-color: #dde5ff;
         }
         
         th.asc:after {
@@ -95,33 +120,35 @@
         }
         
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #f9faff;
         }
         
         tr:hover {
-            background-color: #f1f1f1;
+            background-color: #f0f3ff;
         }
         
         .grade-section {
             background-color: white;
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 20px;
             margin-bottom: 30px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
         .grade-title {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 15px;
         }
         
         .grade-count {
-            background-color: #4b70e2;
+            background-color: #3f51b5;
             color: white;
-            padding: 5px 10px;
+            padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.9em;
+            font-weight: 500;
         }
         
         .divider {
@@ -135,9 +162,12 @@
             padding: 20px;
             color: #6c757d;
             font-size: 0.9em;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
-        /* 계열별 색상 */
+        /* 계열별 스타일 */
         .인문 { color: #2c3e50; }
         .자연 { color: #27ae60; }
         .공통 { color: #8e44ad; }
@@ -146,71 +176,161 @@
         /* 계열 섹션 제목 스타일 */
         .category-title {
             background-color: #f8f9fa;
-            padding: 10px 15px;
+            padding: 12px 15px;
             border-radius: 5px;
             margin-bottom: 15px;
             font-size: 1.2em;
             font-weight: bold;
             border-left: 5px solid;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         
         .category-title.인문 {
             border-left-color: #2c3e50;
             color: #2c3e50;
+            background-color: #ecf0f1;
         }
         
         .category-title.자연 {
             border-left-color: #27ae60;
             color: #27ae60;
+            background-color: #e9f7ef;
         }
         
         .category-title.공통 {
-            border-left-color: #3498db;
-            color: #3498db;
+            border-left-color: #8e44ad;
+            color: #8e44ad;
+            background-color: #f5eef8;
         }
         
         .category-title.예체능 {
             border-left-color: #e74c3c;
             color: #e74c3c;
+            background-color: #fdedec;
         }
         
-        /* 전형별 배지 스타일 */
+        /* 전형 유형 배지 스타일 */
         .badge {
             display: inline-block;
             padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.85em;
-            font-weight: bold;
+            border-radius: 3px;
+            font-weight: 500;
+            color: white;
+            text-align: center;
+            box-shadow: none;
         }
-        .교과 { background-color: #3498db; color: white; }
-        .종합 { background-color: #2ecc71; color: white; }
-        .실기 { background-color: #e67e22; color: white; }
-        .면접위주 { background-color: #9b59b6; color: white; }
-        .학생부위주 { background-color: #f1c40f; color: black; }
-        .기타 { background-color: #95a5a6; color: white; }
         
-        /* 등급대 네비게이션 */
+        .badge.교과 {
+            background-color: #3498db;
+        }
+        
+        .badge.종합 {
+            background-color: #2ecc71;
+        }
+        
+        .badge.실기 {
+            background-color: #e67e22;
+        }
+        
+        .badge.면접위주 {
+            background-color: #9b59b6;
+        }
+        
+        .badge.학생부위주 {
+            background-color: #f1c40f;
+            color: #333;
+        }
+        
+        .badge.기타 {
+            background-color: #95a5a6;
+        }
+        
+        /* 필터 스타일 */
+        .filter-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .filter-section h3 {
+            margin: 0 20px 0 0;
+            font-size: 1.1em;
+            color: #3f51b5;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        
+        .filter-group label {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .filter-group label:hover {
+            background-color: #f0f3ff;
+        }
+        
+        .filter-group input[type="checkbox"] {
+            margin-right: 5px;
+            transform: scale(1.2);
+        }
+        
+        .filter-btn {
+            background-color: #4a5db1;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .filter-btn:hover {
+            background-color: #3a4c95;
+        }
+        
+        /* 등급 네비게이션 스타일 */
         .grade-navigation {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin: 30px 0;
+            justify-content: center;
         }
+        
         .grade-nav-btn {
-            background-color: #f8f9fa;
-            color: #333;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
+            padding: 12px 20px;
+            background-color: #f0f3ff;
+            border: 1px solid #d0d9ff;
+            border-radius: 6px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            color: #3f51b5;
+            font-weight: 600;
+            min-width: 90px;
         }
-        .grade-nav-btn:hover {
-            background-color: #e9ecef;
-        }
-        .grade-nav-btn.active {
-            background-color: #4b70e2;
+        
+        .grade-nav-btn:hover, .grade-nav-btn.active {
+            background-color: #3f51b5;
             color: white;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -220,27 +340,32 @@
         <p>등급대별 대학, 전형, 계열, 모집단위 종합 분석 (계열별 구분)</p>
     </header>
 
-    <div class="description">
+    <div class="description" style="display: none;">
         <p>이 보고서는 2025학년도 금옥여고 졸업생들의 대학 수시 입시 결과를 등급대별로 분석한 자료입니다. 각 등급 범위에 따라 지원 가능한 대학, 계열, 모집단위, 전형유형을 확인할 수 있습니다.</p>
         <p>※ 연도별 데이터와 수능등급 정보도 함께 제공됩니다.</p>
     </div>
 
     <!-- 등급대 네비게이션 -->
     <div class="grade-navigation">
-        <button class="grade-nav-btn active" data-grade="1.0-1.5등급">1.0-1.5등급</button>
-        <button class="grade-nav-btn" data-grade="1.5-2.0등급">1.5-2.0등급</button>
-        <button class="grade-nav-btn" data-grade="2.0-2.5등급">2.0-2.5등급</button>
-        <button class="grade-nav-btn" data-grade="2.5-3.0등급">2.5-3.0등급</button>
-        <button class="grade-nav-btn" data-grade="3.0-3.5등급">3.0-3.5등급</button>
-        <button class="grade-nav-btn" data-grade="3.5-4.0등급">3.5-4.0등급</button>
-        <button class="grade-nav-btn" data-grade="4.0-4.5등급">4.0-4.5등급</button>
-        <button class="grade-nav-btn" data-grade="4.5-5.0등급">4.5-5.0등급</button>
-        <button class="grade-nav-btn" data-grade="5.0-5.5등급">5.0-5.5등급</button>
-        <button class="grade-nav-btn" data-grade="5.5-6.0등급">5.5-6.0등급</button>
-        <button class="grade-nav-btn" data-grade="6.0등급 이상">6.0등급 이상</button>
+        <button class="grade-nav-btn active" data-grade="1.0-1.5">1.0-1.5</button>
+        <button class="grade-nav-btn" data-grade="1.5-2.0">1.5-2.0</button>
+        <button class="grade-nav-btn" data-grade="2.0-2.5">2.0-2.5</button>
+        <button class="grade-nav-btn" data-grade="2.5-3.0">2.5-3.0</button>
+        <button class="grade-nav-btn" data-grade="3.0-3.5">3.0-3.5</button>
+        <button class="grade-nav-btn" data-grade="3.5-4.0">3.5-4.0</button>
+        <button class="grade-nav-btn" data-grade="4.0-4.5">4.0-4.5</button>
+        <button class="grade-nav-btn" data-grade="4.5-5.0">4.5-5.0</button>
+        <button class="grade-nav-btn" data-grade="5.0-5.5">5.0-5.5</button>
+        <button class="grade-nav-btn" data-grade="5.5-6.0">5.5-6.0</button>
+        <button class="grade-nav-btn" data-grade="6.0 이상">6.0 이상</button>
     </div>
 
     <script>
+        // 전역 변수로 데이터 저장
+        let allEntries = [];
+        let selectedYears = ['2022', '2023', '2024']; // 기본적으로 모든 연도 선택
+        
+        // Excel 파일 로드 및 처리
         document.addEventListener('DOMContentLoaded', function() {
             // Excel 파일 불러오기 (SheetJS 라이브러리 사용)
             fetch('입시결과.xlsx')
@@ -358,6 +483,9 @@
                 
                 // 데이터 분석 및 표시
                 analyzeAndDisplayData(entries);
+                
+                // 전역 변수에 데이터 저장
+                allEntries = entries;
             }
             
             // 기존 CSV 데이터 처리 함수 (호환성 유지)
@@ -382,17 +510,17 @@
             function analyzeAndDisplayData(entries) {
                 // 등급 범위 정의
                 const gradeRanges = [
-                    { min: 1.0, max: 1.5, name: '1.0-1.5등급' },
-                    { min: 1.5, max: 2.0, name: '1.5-2.0등급' },
-                    { min: 2.0, max: 2.5, name: '2.0-2.5등급' },
-                    { min: 2.5, max: 3.0, name: '2.5-3.0등급' },
-                    { min: 3.0, max: 3.5, name: '3.0-3.5등급' },
-                    { min: 3.5, max: 4.0, name: '3.5-4.0등급' },
-                    { min: 4.0, max: 4.5, name: '4.0-4.5등급' },
-                    { min: 4.5, max: 5.0, name: '4.5-5.0등급' },
-                    { min: 5.0, max: 5.5, name: '5.0-5.5등급' },
-                    { min: 5.5, max: 6.0, name: '5.5-6.0등급' },
-                    { min: 6.0, max: 9.0, name: '6.0등급 이상' }
+                    { min: 1.0, max: 1.5, name: '1.0-1.5' },
+                    { min: 1.5, max: 2.0, name: '1.5-2.0' },
+                    { min: 2.0, max: 2.5, name: '2.0-2.5' },
+                    { min: 2.5, max: 3.0, name: '2.5-3.0' },
+                    { min: 3.0, max: 3.5, name: '3.0-3.5' },
+                    { min: 3.5, max: 4.0, name: '3.5-4.0' },
+                    { min: 4.0, max: 4.5, name: '4.0-4.5' },
+                    { min: 4.5, max: 5.0, name: '4.5-5.0' },
+                    { min: 5.0, max: 5.5, name: '5.0-5.5' },
+                    { min: 5.5, max: 6.0, name: '5.5-6.0' },
+                    { min: 6.0, max: 9.0, name: '6.0 이상' }
                 ];
                 
                 // 등급별 데이터 분류
@@ -424,10 +552,51 @@
                 const navigation = document.querySelector('.grade-navigation');
                 
                 // 기존 내용 제거 (헤더, 설명, 네비게이션 제외)
-                Array.from(container.children).forEach(child => {
-                    if (child !== header && child !== description && child !== navigation && child.tagName !== 'SCRIPT') {
-                        container.removeChild(child);
-                    }
+                // 기존 필터 섹션 제거
+                const existingFilterSection = document.querySelector('.filter-section');
+                if (existingFilterSection) {
+                    existingFilterSection.remove();
+                }
+                
+                // 기존 등급 섹션 제거
+                const existingSections = document.querySelectorAll('.grade-section');
+                existingSections.forEach(section => section.remove());
+                
+                // 기존 푸터 제거
+                const existingFooter = document.querySelector('footer');
+                if (existingFooter) {
+                    existingFooter.remove();
+                }
+                
+                // 필터 섹션 추가
+                const filterSection = document.createElement('div');
+                filterSection.className = 'filter-section';
+                filterSection.innerHTML = `
+                    <h3>연도 필터:</h3>
+                    <div class="filter-group">
+                        <label><input type="checkbox" value="2022" ${selectedYears.includes('2022') ? 'checked' : ''}> 2022년</label>
+                        <label><input type="checkbox" value="2023" ${selectedYears.includes('2023') ? 'checked' : ''}> 2023년</label>
+                        <label><input type="checkbox" value="2024" ${selectedYears.includes('2024') ? 'checked' : ''}> 2024년</label>
+                    </div>
+                    <button class="filter-btn" id="apply-filter">필터 적용</button>
+                `;
+                
+                // 필터 섹션을 네비게이션 다음에 추가
+                container.insertBefore(filterSection, navigation.nextSibling);
+                
+                // 필터 적용 버튼 이벤트 리스너
+                document.getElementById('apply-filter').addEventListener('click', function() {
+                    // 선택된 연도 가져오기
+                    selectedYears = [];
+                    document.querySelectorAll('.filter-group input[type="checkbox"]:checked').forEach(checkbox => {
+                        selectedYears.push(checkbox.value);
+                    });
+                    
+                    // 선택된 연도에 해당하는 데이터만 필터링
+                    const filteredEntries = allEntries.filter(entry => selectedYears.includes(entry.year.toString()));
+                    
+                    // 필터링된 데이터로 다시 분석 및 표시
+                    analyzeAndDisplayData(filteredEntries);
                 });
                 
                 // 등급대별 섹션 생성
