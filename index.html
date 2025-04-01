@@ -332,9 +332,89 @@
             box-shadow: 0 3px 8px rgba(0,0,0,0.15);
             transform: translateY(-2px);
         }
+        
+        /* 비밀번호 모달 스타일 */
+        .password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .password-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .password-container h2 {
+            margin-top: 0;
+            color: #4a5db1;
+            font-size: 1.8em;
+        }
+        
+        .password-container p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1.2em;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        
+        .password-input:focus {
+            border-color: #4a5db1;
+            outline: none;
+        }
+        
+        .password-button {
+            background-color: #4a5db1;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .password-button:hover {
+            background-color: #3a4c95;
+        }
+        
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
+    <!-- 비밀번호 모달 -->
+    <div class="password-overlay" id="passwordModal">
+        <div class="password-container">
+            <h2>금옥여고 입시 분석</h2>
+            <p>이 페이지는 비밀번호로 보호되어 있습니다.</p>
+            <input type="password" class="password-input" id="passwordInput" placeholder="비밀번호를 입력하세요">
+            <button class="password-button" id="submitPassword">입장하기</button>
+        </div>
+    </div>
+
     <header>
         <h1>금옥여고 수시 입시 결과 분석</h1>
         <p>등급대별 대학, 전형, 계열, 모집단위 종합 분석 (계열별 구분)</p>
@@ -367,6 +447,40 @@
         
         // Excel 파일 로드 및 처리
         document.addEventListener('DOMContentLoaded', function() {
+            // 비밀번호 확인 기능
+            const correctPassword = '2025';
+            const passwordModal = document.getElementById('passwordModal');
+            const passwordInput = document.getElementById('passwordInput');
+            const submitButton = document.getElementById('submitPassword');
+            
+            // 로컬 스토리지에서 인증 상태 확인
+            if (localStorage.getItem('authenticated') === 'true') {
+                passwordModal.classList.add('hidden');
+            }
+            
+            // 비밀번호 제출 이벤트
+            submitButton.addEventListener('click', checkPassword);
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+            
+            function checkPassword() {
+                if (passwordInput.value === correctPassword) {
+                    passwordModal.classList.add('hidden');
+                    localStorage.setItem('authenticated', 'true');
+                } else {
+                    passwordInput.value = '';
+                    passwordInput.placeholder = '비밀번호가 일치하지 않습니다';
+                    passwordInput.style.borderColor = '#e74c3c';
+                    setTimeout(() => {
+                        passwordInput.placeholder = '비밀번호를 입력하세요';
+                        passwordInput.style.borderColor = '#ddd';
+                    }, 1500);
+                }
+            }
+            
             // Excel 파일 불러오기 (SheetJS 라이브러리 사용)
             fetch('입시결과.xlsx')
                 .then(response => {
