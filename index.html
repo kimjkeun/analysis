@@ -443,7 +443,7 @@
     <script>
         // 전역 변수로 데이터 저장
         let allEntries = [];
-        let selectedYears = ['2022', '2023', '2024']; // 기본적으로 모든 연도 선택
+        let selectedYears = ['2022', '2023', '2024', '2025']; // 기본적으로 모든 연도 선택
         
         // Excel 파일 로드 및 처리
         document.addEventListener('DOMContentLoaded', function() {
@@ -691,6 +691,7 @@
                         <label><input type="checkbox" value="2022" ${selectedYears.includes('2022') ? 'checked' : ''}> 2022년</label>
                         <label><input type="checkbox" value="2023" ${selectedYears.includes('2023') ? 'checked' : ''}> 2023년</label>
                         <label><input type="checkbox" value="2024" ${selectedYears.includes('2024') ? 'checked' : ''}> 2024년</label>
+                        <label><input type="checkbox" value="2025" ${selectedYears.includes('2025') ? 'checked' : ''}> 2025년</label>
                     </div>
                     <button class="filter-btn" id="apply-filter">필터 적용</button>
                 `;
@@ -904,7 +905,7 @@
                 // 푸터 추가
                 const footer = document.createElement('footer');
                 footer.innerHTML = `
-                    <p>본 분석 자료는 2023-2025학년도 입시 결과를 기반으로 작성되었습니다.</p>
+                    <p>본 분석 자료는 2022-2025학년도 입시 결과를 기반으로 작성되었습니다.</p>
                     <p>마지막 업데이트: ${new Date().toLocaleDateString()}</p>
                 `;
                 container.appendChild(footer);
@@ -986,7 +987,7 @@
     </script>
 
     <footer>
-        <p>본 분석 자료는 2023-2025학년도 입시 결과를 기반으로 작성되었습니다.</p>
+        <p>본 분석 자료는 2022-2025학년도 입시 결과를 기반으로 작성되었습니다.</p>
         <p>마지막 업데이트: <span id="update-date"></span></p>
     </footer>
 </body>
