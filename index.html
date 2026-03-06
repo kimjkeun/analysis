@@ -308,8 +308,8 @@
         .grade-navigation {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
-            margin: 30px 0;
+            gap: 10px;
+            margin: 0 0 16px 0;
             justify-content: center;
         }
         
@@ -402,6 +402,223 @@
         .hidden {
             display: none;
         }
+
+        /* ===== 모드 탭 UI ===== */
+        .mode-tabs {
+            display: flex;
+            margin-bottom: 0;
+            gap: 4px;
+        }
+
+        .mode-tab {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.15em;
+            font-weight: 700;
+            transition: all 0.3s;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #e0e4f0;
+            color: #8890b5;
+        }
+
+        .mode-tab:hover {
+            background-color: #d4daf0;
+            color: #5a65a0;
+        }
+
+        .mode-tab.active {
+            background-color: white;
+            color: #3f51b5;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
+        }
+
+        .mode-tab .tab-icon {
+            font-size: 1.2em;
+        }
+
+        .tab-panel {
+            display: none;
+            background-color: white;
+            border-radius: 0 0 10px 10px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* ===== 대학 검색 스타일 ===== */
+        .search-description {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 16px;
+        }
+
+        .search-input-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #d0d9ff;
+            border-radius: 8px;
+            font-size: 1.05em;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #3f51b5;
+            box-shadow: 0 0 0 3px rgba(63,81,181,0.1);
+        }
+
+        .search-input::placeholder {
+            color: #aaa;
+        }
+
+        .search-btn {
+            background-color: #4a5db1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.05em;
+            transition: background-color 0.3s, transform 0.2s;
+            white-space: nowrap;
+        }
+
+        .search-btn:hover {
+            background-color: #3a4c95;
+            transform: translateY(-1px);
+        }
+
+        .search-clear-btn {
+            background-color: #95a5a6;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.05em;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+
+        .search-clear-btn:hover {
+            background-color: #7f8c8d;
+        }
+
+        .search-suggestions {
+            position: relative;
+        }
+
+        .suggestions-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #d0d9ff;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 220px;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .suggestion-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 0.95em;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f0f3ff;
+        }
+
+        .suggestion-item .highlight {
+            color: #3f51b5;
+            font-weight: bold;
+        }
+
+        .search-results-info {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #eef1fd, #f0f3ff);
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #3f51b5;
+            font-weight: 600;
+            display: none;
+            border-left: 4px solid #3f51b5;
+        }
+
+        .search-results-info.active {
+            display: block;
+        }
+
+        .search-result-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .search-result-grade-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #eef1fd;
+        }
+
+        .search-result-grade-title h3 {
+            margin: 0;
+            color: #3f51b5;
+        }
+
+        .search-no-result {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+            font-size: 1.1em;
+        }
+
+        .search-no-result .no-result-icon {
+            font-size: 3em;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        /* ===== 등급별 검색 패널 내부 ===== */
+        .grade-panel-description {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 16px;
+        }
     </style>
 </head>
 <body>
@@ -425,19 +642,48 @@
         <p>※ 연도별 데이터와 수능등급 정보도 함께 제공됩니다.</p>
     </div>
 
-    <!-- 등급대 네비게이션 -->
-    <div class="grade-navigation">
-        <button class="grade-nav-btn active" data-grade="1.0-1.5">1.0-1.5</button>
-        <button class="grade-nav-btn" data-grade="1.5-2.0">1.5-2.0</button>
-        <button class="grade-nav-btn" data-grade="2.0-2.5">2.0-2.5</button>
-        <button class="grade-nav-btn" data-grade="2.5-3.0">2.5-3.0</button>
-        <button class="grade-nav-btn" data-grade="3.0-3.5">3.0-3.5</button>
-        <button class="grade-nav-btn" data-grade="3.5-4.0">3.5-4.0</button>
-        <button class="grade-nav-btn" data-grade="4.0-4.5">4.0-4.5</button>
-        <button class="grade-nav-btn" data-grade="4.5-5.0">4.5-5.0</button>
-        <button class="grade-nav-btn" data-grade="5.0-5.5">5.0-5.5</button>
-        <button class="grade-nav-btn" data-grade="5.5-6.0">5.5-6.0</button>
-        <button class="grade-nav-btn" data-grade="6.0 이상">6.0 이상</button>
+    <!-- 모드 탭 -->
+    <div class="mode-tabs">
+        <button class="mode-tab active" id="tabUnivSearch" data-tab="univ-search">
+            <span class="tab-icon">🔍</span> 대학교 검색
+        </button>
+        <button class="mode-tab" id="tabGradeSearch" data-tab="grade-search">
+            <span class="tab-icon">📊</span> 등급별 검색
+        </button>
+    </div>
+
+    <!-- 대학교 검색 패널 -->
+    <div class="tab-panel active" id="panel-univ-search">
+        <p class="search-description">대학교 이름으로 검색하여 해당 대학의 모든 입시 결과를 한눈에 확인하세요.</p>
+        <div class="search-input-wrapper">
+            <div class="search-suggestions" style="flex:1;">
+                <input type="text" class="search-input" id="universitySearchInput" placeholder="대학교 이름을 입력하세요 (예: 연세대, 건국대, 이화여대)">
+                <div class="suggestions-list" id="suggestionsList" style="display:none;"></div>
+            </div>
+            <button class="search-btn" id="searchBtn">검색</button>
+            <button class="search-clear-btn" id="searchClearBtn" style="display:none;">초기화</button>
+        </div>
+        <div class="search-results-info" id="searchResultsInfo"></div>
+        <!-- 검색 결과 영역 -->
+        <div id="searchResultsContainer"></div>
+    </div>
+
+    <!-- 등급별 검색 패널 -->
+    <div class="tab-panel" id="panel-grade-search">
+        <p class="grade-panel-description">내신 등급대를 선택하여 해당 등급으로 합격한 대학 및 학과 정보를 확인하세요.</p>
+        <div class="grade-navigation" id="gradeNavigation">
+            <button class="grade-nav-btn active" data-grade="1.0-1.5">1.0-1.5</button>
+            <button class="grade-nav-btn" data-grade="1.5-2.0">1.5-2.0</button>
+            <button class="grade-nav-btn" data-grade="2.0-2.5">2.0-2.5</button>
+            <button class="grade-nav-btn" data-grade="2.5-3.0">2.5-3.0</button>
+            <button class="grade-nav-btn" data-grade="3.0-3.5">3.0-3.5</button>
+            <button class="grade-nav-btn" data-grade="3.5-4.0">3.5-4.0</button>
+            <button class="grade-nav-btn" data-grade="4.0-4.5">4.0-4.5</button>
+            <button class="grade-nav-btn" data-grade="4.5-5.0">4.5-5.0</button>
+            <button class="grade-nav-btn" data-grade="5.0-5.5">5.0-5.5</button>
+            <button class="grade-nav-btn" data-grade="5.5-6.0">5.5-6.0</button>
+            <button class="grade-nav-btn" data-grade="6.0 이상">6.0 이상</button>
+        </div>
     </div>
 
     <script>
@@ -481,6 +727,197 @@
                 }
             }
             
+            // 탭 전환 기능
+            const modeTabs = document.querySelectorAll('.mode-tab');
+            const tabPanels = document.querySelectorAll('.tab-panel');
+
+            modeTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetPanel = this.dataset.tab;
+                    modeTabs.forEach(t => t.classList.remove('active'));
+                    tabPanels.forEach(p => p.classList.remove('active'));
+                    this.classList.add('active');
+                    document.getElementById('panel-' + targetPanel).classList.add('active');
+                });
+            });
+
+            // 대학 검색 기능 초기화
+            const searchInput = document.getElementById('universitySearchInput');
+            const searchBtn = document.getElementById('searchBtn');
+            const searchClearBtn = document.getElementById('searchClearBtn');
+            const suggestionsList = document.getElementById('suggestionsList');
+            const searchResultsInfo = document.getElementById('searchResultsInfo');
+            const searchResultsContainer = document.getElementById('searchResultsContainer');
+            const gradePanel = document.getElementById('panel-grade-search');
+
+            // 자동완성 표시
+            searchInput.addEventListener('input', function() {
+                const query = this.value.trim();
+                if (query.length === 0 || allEntries.length === 0) {
+                    suggestionsList.style.display = 'none';
+                    return;
+                }
+
+                // 고유 대학명 추출 후 검색어로 필터
+                const uniqueUnivs = [...new Set(allEntries.map(e => e.university))];
+                const matched = uniqueUnivs.filter(u => u.includes(query)).sort();
+
+                if (matched.length === 0) {
+                    suggestionsList.style.display = 'none';
+                    return;
+                }
+
+                suggestionsList.innerHTML = matched.slice(0, 10).map(u => {
+                    const highlighted = u.replace(new RegExp(query, 'g'), `<span class="highlight">${query}</span>`);
+                    return `<div class="suggestion-item" data-univ="${u}">${highlighted}</div>`;
+                }).join('');
+                suggestionsList.style.display = 'block';
+            });
+
+            // 자동완성 항목 클릭
+            suggestionsList.addEventListener('click', function(e) {
+                const item = e.target.closest('.suggestion-item');
+                if (item) {
+                    searchInput.value = item.dataset.univ;
+                    suggestionsList.style.display = 'none';
+                    performSearch(item.dataset.univ);
+                }
+            });
+
+            // 검색 버튼 클릭
+            searchBtn.addEventListener('click', function() {
+                const query = searchInput.value.trim();
+                if (query) performSearch(query);
+            });
+
+            // Enter 키 검색
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    suggestionsList.style.display = 'none';
+                    const query = this.value.trim();
+                    if (query) performSearch(query);
+                }
+            });
+
+            // 초기화 버튼
+            searchClearBtn.addEventListener('click', function() {
+                clearSearch();
+            });
+
+            // 외부 클릭 시 자동완성 닫기
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.search-suggestions')) {
+                    suggestionsList.style.display = 'none';
+                }
+            });
+
+            // 검색 실행 함수
+            function performSearch(query) {
+                // 연도 필터 적용
+                const filteredByYear = allEntries.filter(entry => selectedYears.includes(entry.year.toString()));
+                
+                // 대학명으로 검색 (부분 일치)
+                const results = filteredByYear.filter(entry => entry.university.includes(query));
+
+                searchClearBtn.style.display = 'inline-block';
+
+                // 검색 결과 컨테이너 초기화
+                searchResultsContainer.innerHTML = '';
+
+                if (results.length === 0) {
+                    searchResultsInfo.textContent = `"${query}" 검색 결과가 없습니다.`;
+                    searchResultsInfo.classList.add('active');
+                    searchResultsContainer.innerHTML = '<div class="search-no-result"><span class="no-result-icon">🔍</span>검색 결과가 없습니다. 다른 대학명으로 검색해 보세요.</div>';
+                    return;
+                }
+
+                // 매칭된 고유 대학 수
+                const matchedUnivs = [...new Set(results.map(e => e.university))];
+                searchResultsInfo.textContent = `"${query}" 검색 결과: ${matchedUnivs.length}개 대학, 총 ${results.length}건`;
+                searchResultsInfo.classList.add('active');
+
+                // 등급 범위 정의
+                const gradeRanges = [
+                    { min: 1.0, max: 1.5, name: '1.0-1.5' },
+                    { min: 1.5, max: 2.0, name: '1.5-2.0' },
+                    { min: 2.0, max: 2.5, name: '2.0-2.5' },
+                    { min: 2.5, max: 3.0, name: '2.5-3.0' },
+                    { min: 3.0, max: 3.5, name: '3.0-3.5' },
+                    { min: 3.5, max: 4.0, name: '3.5-4.0' },
+                    { min: 4.0, max: 4.5, name: '4.0-4.5' },
+                    { min: 4.5, max: 5.0, name: '4.5-5.0' },
+                    { min: 5.0, max: 5.5, name: '5.0-5.5' },
+                    { min: 5.5, max: 6.0, name: '5.5-6.0' },
+                    { min: 6.0, max: 9.0, name: '6.0 이상' }
+                ];
+
+                // 등급별로 결과 그룹화
+                gradeRanges.forEach(range => {
+                    const gradeResults = results.filter(e => e.grade >= range.min && e.grade < range.max);
+                    if (gradeResults.length === 0) return;
+
+                    const section = document.createElement('div');
+                    section.className = 'search-result-section';
+
+                    // 등급대 제목
+                    const titleDiv = document.createElement('div');
+                    titleDiv.className = 'search-result-grade-title';
+                    titleDiv.innerHTML = `<h3>내신 ${range.name} 등급대</h3><span class="grade-count">${gradeResults.length}건</span>`;
+                    section.appendChild(titleDiv);
+
+                    // 테이블 생성
+                    const table = document.createElement('table');
+                    const thead = document.createElement('thead');
+                    thead.innerHTML = `
+                        <tr>
+                            <th>대학</th>
+                            <th>모집단위</th>
+                            <th>전형</th>
+                            <th>연도</th>
+                            <th>내신등급</th>
+                            <th>수능등급<br>(국수영탐1탐2)</th>
+                        </tr>
+                    `;
+
+                    const tbody = document.createElement('tbody');
+                    // 내신 등급순 정렬
+                    gradeResults.sort((a, b) => a.grade - b.grade);
+                    tbody.innerHTML = gradeResults.map(entry => {
+                        let suneungText = '';
+                        if (entry.suneung && entry.suneung.korean) suneungText += entry.suneung.korean;
+                        if (entry.suneung && entry.suneung.math) suneungText += entry.suneung.math;
+                        if (entry.suneung && entry.suneung.english) suneungText += entry.suneung.english;
+                        if (entry.suneung && entry.suneung.tam1) suneungText += entry.suneung.tam1;
+                        if (entry.suneung && entry.suneung.tam2) suneungText += entry.suneung.tam2;
+                        if (suneungText === '') suneungText = '-';
+
+                        return `
+                            <tr>
+                                <td title="${entry.university}">${entry.university}</td>
+                                <td title="${entry.department}">${entry.department}</td>
+                                <td><span class="badge ${getBadgeClass(entry.admissionType)}">${entry.admissionType}</span></td>
+                                <td>${entry.year}년</td>
+                                <td>${entry.grade.toFixed(3)}</td>
+                                <td>${suneungText}</td>
+                            </tr>
+                        `;
+                    }).join('');
+
+                    table.appendChild(thead);
+                    table.appendChild(tbody);
+                    section.appendChild(table);
+                    searchResultsContainer.appendChild(section);
+                });
+            }
+
+            // 검색 초기화 함수
+            function clearSearch() {
+                searchInput.value = '';
+                searchClearBtn.style.display = 'none';
+                searchResultsInfo.classList.remove('active');
+                searchResultsContainer.innerHTML = '';
+            }
+
             // Excel 파일 불러오기 (SheetJS 라이브러리 사용)
             fetch('입시결과.xlsx')
                 .then(response => {
@@ -659,28 +1096,18 @@
                     }
                 });
                 
-                // UI 생성
-                const container = document.querySelector('body');
-                const header = document.querySelector('header');
-                const description = document.querySelector('.description');
+                // UI 생성 - 등급별 검색 패널에 추가
                 const navigation = document.querySelector('.grade-navigation');
                 
-                // 기존 내용 제거 (헤더, 설명, 네비게이션 제외)
                 // 기존 필터 섹션 제거
-                const existingFilterSection = document.querySelector('.filter-section');
+                const existingFilterSection = gradePanel.querySelector('.filter-section');
                 if (existingFilterSection) {
                     existingFilterSection.remove();
                 }
                 
                 // 기존 등급 섹션 제거
-                const existingSections = document.querySelectorAll('.grade-section');
+                const existingSections = gradePanel.querySelectorAll('.grade-section');
                 existingSections.forEach(section => section.remove());
-                
-                // 기존 푸터 제거
-                const existingFooter = document.querySelector('footer');
-                if (existingFooter) {
-                    existingFooter.remove();
-                }
                 
                 // 필터 섹션 추가
                 const filterSection = document.createElement('div');
@@ -697,7 +1124,7 @@
                 `;
                 
                 // 필터 섹션을 네비게이션 다음에 추가
-                container.insertBefore(filterSection, navigation.nextSibling);
+                navigation.parentNode.insertBefore(filterSection, navigation.nextSibling);
                 
                 // 필터 적용 버튼 이벤트 리스너
                 document.getElementById('apply-filter').addEventListener('click', function() {
@@ -899,16 +1326,9 @@
                     }
                     
                     sectionDiv.appendChild(detailDiv);
-                    container.appendChild(sectionDiv);
+                    gradePanel.appendChild(sectionDiv);
                 });
                 
-                // 푸터 추가
-                const footer = document.createElement('footer');
-                footer.innerHTML = `
-                    <p>본 분석 자료는 2022-2025학년도 입시 결과를 기반으로 작성되었습니다.</p>
-                    <p>마지막 업데이트: ${new Date().toLocaleDateString()}</p>
-                `;
-                container.appendChild(footer);
                 
                 // 네비게이션 이벤트 설정
                 const navButtons = document.querySelectorAll('.grade-nav-btn');
