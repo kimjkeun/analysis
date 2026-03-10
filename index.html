@@ -646,17 +646,17 @@
     <!-- 모드 탭 -->
     <div class="mode-tabs">
         <button class="mode-tab active" id="tabGradeSearch" data-tab="grade-search">
-            <span class="tab-icon">�</span> 등급별 검색
+            <span class="tab-icon">&#128202;</span> 등급별 검색
         </button>
         <button class="mode-tab" id="tabUnivSearch" data-tab="univ-search">
-            <span class="tab-icon">�</span> 대학교 검색
+            <span class="tab-icon">&#128269;</span> 대학교 검색
         </button>
     </div>
 
     <!-- 등급별 검색 패널 -->
     <div class="tab-panel active" id="panel-grade-search">
         <p class="grade-panel-description">내신 등급대를 선택하여 해당 등급으로 합격한 대학 및 학과 정보를 확인하세요.</p>
-        <span class="grade-sub-label">📋 등급 선택</span>
+        <span class="grade-sub-label">&#128203; 등급 선택</span>
         <div class="grade-navigation" id="gradeNavigation">
             <button class="grade-nav-btn active" data-grade="1.0-1.5">1.0-1.5</button>
             <button class="grade-nav-btn" data-grade="1.5-2.0">1.5-2.0</button>
@@ -828,7 +828,7 @@
                 if (results.length === 0) {
                     searchResultsInfo.textContent = `"${query}" 검색 결과가 없습니다.`;
                     searchResultsInfo.classList.add('active');
-                    searchResultsContainer.innerHTML = '<div class="search-no-result"><span class="no-result-icon">🔍</span>검색 결과가 없습니다. 다른 대학명으로 검색해 보세요.</div>';
+                    searchResultsContainer.innerHTML = '<div class="search-no-result"><span class="no-result-icon">&#128269;</span>검색 결과가 없습니다. 다른 대학명으로 검색해 보세요.</div>';
                     return;
                 }
 
@@ -875,7 +875,7 @@
                             <th>모집단위</th>
                             <th>전형</th>
                             <th>연도</th>
-                            <th>내신등급</th>
+                            <th>내신등급<br>(국영수사탐)</th>
                             <th>수능등급<br>(국수영탐1탐2)</th>
                         </tr>
                     `;
@@ -1117,7 +1117,7 @@
                 // 필터 서브라벨 추가
                 const filterLabel = document.createElement('span');
                 filterLabel.className = 'grade-sub-label filter-sub-label';
-                filterLabel.innerHTML = '📅 연도 필터';
+                filterLabel.innerHTML = '&#128197; 연도 필터';
 
                 // 필터 섹션 추가
                 const filterSection = document.createElement('div');
@@ -1256,9 +1256,8 @@
                                         <th>모집단위</th>
                                         <th data-sort="admissionType" class="${sortState.column === 'admissionType' ? sortState.direction : ''}">전형</th>
                                         <th data-sort="year" class="${sortState.column === 'year' ? sortState.direction : ''}">연도</th>
-                                        <th data-sort="grade" class="${sortState.column === 'grade' ? sortState.direction : ''}">내신등급</th>
-                                        <th>수능등급
-                                            <br>(국수영탐1탐2)</th>
+                                        <th data-sort="grade" class="${sortState.column === 'grade' ? sortState.direction : ''}">내신등급<br>(국영수사탐)</th>
+                                        <th>수능등급<br>(국수영탐1탐2)</th>
                                     </tr>
                                 `;
                                 
