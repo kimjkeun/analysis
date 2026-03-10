@@ -835,15 +835,36 @@
         
         // Excel 파일 로드 및 처리
         document.addEventListener('DOMContentLoaded', function() {
-            // 비밀번호 확인 기능
-            const correctPassword = 'gmokipsi';
+            // 비밀번호 확인 기능 (SHA-256 해시 비교)
+            const PASSWORD_HASH = '3a32770c3ba052d191d41598901dcb6a994920e5f88e79db621c7521cba9e3e3';
+            const AUTH_EXPIRY_HOURS = 24;
             const passwordModal = document.getElementById('passwordModal');
             const passwordInput = document.getElementById('passwordInput');
             const submitButton = document.getElementById('submitPassword');
-            
+
+            // SHA-256 해시 함수
+            async function sha256(message) {
+                const msgBuffer = new TextEncoder().encode(message);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            }
+
+            // 인증 만료 확인 (24시간)
+            function isAuthValid() {
+                const authTime = localStorage.getItem('authTime');
+                if (!authTime) return false;
+                const elapsed = Date.now() - parseInt(authTime);
+                const expiryMs = AUTH_EXPIRY_HOURS * 60 * 60 * 1000;
+                return elapsed < expiryMs;
+            }
+
             // 로컬 스토리지에서 인증 상태 확인
-            if (localStorage.getItem('authenticated') === 'true') {
+            if (localStorage.getItem('authenticated') === 'true' && isAuthValid()) {
                 passwordModal.classList.add('hidden');
+            } else {
+                localStorage.removeItem('authenticated');
+                localStorage.removeItem('authTime');
             }
             
             // 비밀번호 제출 이벤트
@@ -854,10 +875,12 @@
                 }
             });
             
-            function checkPassword() {
-                if (passwordInput.value === correctPassword) {
+            async function checkPassword() {
+                const inputHash = await sha256(passwordInput.value);
+                if (inputHash === PASSWORD_HASH) {
                     passwordModal.classList.add('hidden');
                     localStorage.setItem('authenticated', 'true');
+                    localStorage.setItem('authTime', Date.now().toString());
                 } else {
                     passwordInput.value = '';
                     passwordInput.placeholder = '비밀번호가 일치하지 않습니다';
