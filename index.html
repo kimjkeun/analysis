@@ -247,90 +247,79 @@
         
         /* 필터 스타일 */
         .filter-section {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            padding: 0;
+            margin: 0;
             display: flex;
-            align-items: center;
             flex-wrap: wrap;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            gap: 8px;
+            justify-content: flex-start;
+            background: none;
+            box-shadow: none;
+            border-radius: 0;
         }
         
-        .filter-section h3 {
-            margin: 0 20px 0 0;
-            font-size: 1.1em;
-            color: #3f51b5;
-        }
-        
-        .filter-group {
-            display: flex;
-            align-items: center;
-            margin-right: 20px;
-        }
-        
-        .filter-group label {
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-        }
-        
-        .filter-group label:hover {
+        .year-toggle-btn {
+            padding: 10px 18px;
             background-color: #f0f3ff;
-        }
-        
-        .filter-group input[type="checkbox"] {
-            margin-right: 5px;
-            transform: scale(1.2);
-        }
-        
-        .filter-btn {
-            background-color: #4a5db1;
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 4px;
+            border: 2px solid #d0d9ff;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 1.05em;
+            transition: all 0.25s;
+            color: #3f51b5;
+            font-weight: 600;
+            min-width: 85px;
         }
         
-        .filter-btn:hover {
-            background-color: #3a4c95;
+        .year-toggle-btn:hover {
+            background-color: #e0e6ff;
+            border-color: #3f51b5;
+            transform: translateY(-1px);
+        }
+        
+        .year-toggle-btn.active {
+            background-color: #3f51b5;
+            color: white;
+            border-color: #3f51b5;
+            box-shadow: 0 3px 8px rgba(63,81,181,0.3);
+            transform: translateY(-1px);
         }
         
         /* 등급 네비게이션 스타일 */
         .grade-navigation {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin: 0 0 16px 0;
+            gap: 8px;
+            margin: 0;
+            padding-bottom: 16px;
             justify-content: center;
         }
         
         .grade-nav-btn {
-            padding: 12px 20px;
+            padding: 10px 18px;
             background-color: #f0f3ff;
-            border: 1px solid #d0d9ff;
-            border-radius: 6px;
+            border: 2px solid #d0d9ff;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1.1em;
-            transition: all 0.3s;
+            font-size: 1.05em;
+            transition: all 0.25s;
             color: #3f51b5;
             font-weight: 600;
-            min-width: 90px;
+            min-width: 85px;
         }
         
-        .grade-nav-btn:hover, .grade-nav-btn.active {
+        .grade-nav-btn:hover {
+            background-color: #e0e6ff;
+            border-color: #3f51b5;
+            transform: translateY(-1px);
+        }
+        
+        .grade-nav-btn.active {
             background-color: #3f51b5;
             color: white;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-            transform: translateY(-2px);
+            border-color: #3f51b5;
+            box-shadow: 0 3px 8px rgba(63,81,181,0.3);
+            transform: translateY(-1px);
         }
         
         /* 비밀번호 모달 스타일 */
@@ -616,8 +605,20 @@
         /* ===== 등급별 검색 패널 내부 ===== */
         .grade-panel-description {
             color: #666;
-            font-size: 0.95em;
-            margin-bottom: 16px;
+            font-size: 0.93em;
+            margin: 0 0 18px 0;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #e8ecf4;
+        }
+
+        .grade-sub-label {
+            display: block;
+            font-size: 0.85em;
+            font-weight: 700;
+            color: #3f51b5;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
     </style>
 </head>
@@ -644,33 +645,18 @@
 
     <!-- 모드 탭 -->
     <div class="mode-tabs">
-        <button class="mode-tab active" id="tabUnivSearch" data-tab="univ-search">
-            <span class="tab-icon">🔍</span> 대학교 검색
+        <button class="mode-tab active" id="tabGradeSearch" data-tab="grade-search">
+            <span class="tab-icon">�</span> 등급별 검색
         </button>
-        <button class="mode-tab" id="tabGradeSearch" data-tab="grade-search">
-            <span class="tab-icon">📊</span> 등급별 검색
+        <button class="mode-tab" id="tabUnivSearch" data-tab="univ-search">
+            <span class="tab-icon">�</span> 대학교 검색
         </button>
-    </div>
-
-    <!-- 대학교 검색 패널 -->
-    <div class="tab-panel active" id="panel-univ-search">
-        <p class="search-description">대학교 이름으로 검색하여 해당 대학의 모든 입시 결과를 한눈에 확인하세요.</p>
-        <div class="search-input-wrapper">
-            <div class="search-suggestions" style="flex:1;">
-                <input type="text" class="search-input" id="universitySearchInput" placeholder="대학교 이름을 입력하세요 (예: 연세대, 건국대, 이화여대)">
-                <div class="suggestions-list" id="suggestionsList" style="display:none;"></div>
-            </div>
-            <button class="search-btn" id="searchBtn">검색</button>
-            <button class="search-clear-btn" id="searchClearBtn" style="display:none;">초기화</button>
-        </div>
-        <div class="search-results-info" id="searchResultsInfo"></div>
-        <!-- 검색 결과 영역 -->
-        <div id="searchResultsContainer"></div>
     </div>
 
     <!-- 등급별 검색 패널 -->
-    <div class="tab-panel" id="panel-grade-search">
+    <div class="tab-panel active" id="panel-grade-search">
         <p class="grade-panel-description">내신 등급대를 선택하여 해당 등급으로 합격한 대학 및 학과 정보를 확인하세요.</p>
+        <span class="grade-sub-label">📋 등급 선택</span>
         <div class="grade-navigation" id="gradeNavigation">
             <button class="grade-nav-btn active" data-grade="1.0-1.5">1.0-1.5</button>
             <button class="grade-nav-btn" data-grade="1.5-2.0">1.5-2.0</button>
@@ -684,6 +670,21 @@
             <button class="grade-nav-btn" data-grade="5.5-6.0">5.5-6.0</button>
             <button class="grade-nav-btn" data-grade="6.0 이상">6.0 이상</button>
         </div>
+    </div>
+
+    <!-- 대학교 검색 패널 -->
+    <div class="tab-panel" id="panel-univ-search">
+        <p class="search-description">대학교 이름으로 검색하여 해당 대학의 모든 입시 결과를 한눈에 확인하세요.</p>
+        <div class="search-input-wrapper">
+            <div class="search-suggestions" style="flex:1;">
+                <input type="text" class="search-input" id="universitySearchInput" placeholder="대학교 이름을 입력하세요 (예: 연세대, 건국대, 이화여대)">
+                <div class="suggestions-list" id="suggestionsList" style="display:none;"></div>
+            </div>
+            <button class="search-btn" id="searchBtn">검색</button>
+            <button class="search-clear-btn" id="searchClearBtn" style="display:none;">초기화</button>
+        </div>
+        <div class="search-results-info" id="searchResultsInfo"></div>
+        <div id="searchResultsContainer"></div>
     </div>
 
     <script>
@@ -1109,37 +1110,40 @@
                 const existingSections = gradePanel.querySelectorAll('.grade-section');
                 existingSections.forEach(section => section.remove());
                 
+                // 기존 서브라벨 제거
+                const existingSubLabel = gradePanel.querySelector('.filter-sub-label');
+                if (existingSubLabel) existingSubLabel.remove();
+
+                // 필터 서브라벨 추가
+                const filterLabel = document.createElement('span');
+                filterLabel.className = 'grade-sub-label filter-sub-label';
+                filterLabel.innerHTML = '📅 연도 필터';
+
                 // 필터 섹션 추가
                 const filterSection = document.createElement('div');
                 filterSection.className = 'filter-section';
-                filterSection.innerHTML = `
-                    <h3>연도 필터:</h3>
-                    <div class="filter-group">
-                        <label><input type="checkbox" value="2022" ${selectedYears.includes('2022') ? 'checked' : ''}> 2022년</label>
-                        <label><input type="checkbox" value="2023" ${selectedYears.includes('2023') ? 'checked' : ''}> 2023년</label>
-                        <label><input type="checkbox" value="2024" ${selectedYears.includes('2024') ? 'checked' : ''}> 2024년</label>
-                        <label><input type="checkbox" value="2025" ${selectedYears.includes('2025') ? 'checked' : ''}> 2025년</label>
-                    </div>
-                    <button class="filter-btn" id="apply-filter">필터 적용</button>
-                `;
-                
-                // 필터 섹션을 네비게이션 다음에 추가
-                navigation.parentNode.insertBefore(filterSection, navigation.nextSibling);
-                
-                // 필터 적용 버튼 이벤트 리스너
-                document.getElementById('apply-filter').addEventListener('click', function() {
-                    // 선택된 연도 가져오기
-                    selectedYears = [];
-                    document.querySelectorAll('.filter-group input[type="checkbox"]:checked').forEach(checkbox => {
-                        selectedYears.push(checkbox.value);
+                ['2022', '2023', '2024', '2025'].forEach(year => {
+                    const btn = document.createElement('button');
+                    btn.className = 'year-toggle-btn' + (selectedYears.includes(year) ? ' active' : '');
+                    btn.dataset.year = year;
+                    btn.textContent = year + '년';
+                    btn.addEventListener('click', function() {
+                        this.classList.toggle('active');
+                        // 선택된 연도 업데이트
+                        selectedYears = [];
+                        filterSection.querySelectorAll('.year-toggle-btn.active').forEach(b => {
+                            selectedYears.push(b.dataset.year);
+                        });
+                        // 필터링된 데이터로 다시 분석 및 표시
+                        const filteredEntries = allEntries.filter(entry => selectedYears.includes(entry.year.toString()));
+                        analyzeAndDisplayData(filteredEntries);
                     });
-                    
-                    // 선택된 연도에 해당하는 데이터만 필터링
-                    const filteredEntries = allEntries.filter(entry => selectedYears.includes(entry.year.toString()));
-                    
-                    // 필터링된 데이터로 다시 분석 및 표시
-                    analyzeAndDisplayData(filteredEntries);
+                    filterSection.appendChild(btn);
                 });
+                
+                // 필터 라벨과 섹션을 네비게이션 다음에 추가
+                navigation.parentNode.insertBefore(filterLabel, navigation.nextSibling);
+                filterLabel.parentNode.insertBefore(filterSection, filterLabel.nextSibling);
                 
                 // 등급대별 섹션 생성
                 gradeRanges.forEach(range => {
