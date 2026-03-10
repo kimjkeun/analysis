@@ -2,7 +2,7 @@ import pandas as pd
 
 # Excel 파일 읽기
 try:
-    df = pd.read_excel('입시결과.xlsx')
+    df = pd.read_excel('입시결과4.xlsx')
     print("엑셀 파일 읽기 성공")
     print(f"컬럼 목록: {df.columns.tolist()}")
     print(f"데이터 샘플:\n{df.head()}")

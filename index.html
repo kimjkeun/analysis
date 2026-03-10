@@ -67,19 +67,20 @@
         }
         
         /* 열 너비 고정 */
-        th:nth-child(1), td:nth-child(1) { width: 20%; } /* 대학 */
-        th:nth-child(2), td:nth-child(2) { width: 30%; } /* 모집단위 */
-        th:nth-child(3), td:nth-child(3) { width: 15%; } /* 전형 */
-        th:nth-child(4), td:nth-child(4) { width: 10%; } /* 연도 */
-        th:nth-child(5), td:nth-child(5) { width: 10%; } /* 내신등급 */
-        th:nth-child(6), td:nth-child(6) { width: 15%; } /* 수능등급 */
+        th:nth-child(1), td:nth-child(1) { width: 16%; } /* 대학 */
+        th:nth-child(2), td:nth-child(2) { width: 8%; }  /* 지역 */
+        th:nth-child(3), td:nth-child(3) { width: 24%; } /* 모집단위 */
+        th:nth-child(4), td:nth-child(4) { width: 13%; } /* 전형 */
+        th:nth-child(5), td:nth-child(5) { width: 8%; }  /* 연도 */
+        th:nth-child(6), td:nth-child(6) { width: 10%; } /* 내신등급 */
+        th:nth-child(7), td:nth-child(7) { width: 21%; } /* 수능등급 */
         
         /* 모집단위 열은 텍스트가 길 수 있으므로 마우스 오버 시 툴팁 표시 */
-        td:nth-child(2) {
+        td:nth-child(3) {
             position: relative;
         }
         
-        td:nth-child(2):hover::after {
+        td:nth-child(3):hover::after {
             content: attr(title);
             position: absolute;
             left: 0;
@@ -839,11 +840,8 @@
 
             // 검색 실행 함수
             function performSearch(query) {
-                // 연도 필터 적용
-                const filteredByYear = allEntries.filter(entry => selectedYears.includes(entry.year.toString()));
-                
-                // 대학명으로 검색 (부분 일치)
-                const results = filteredByYear.filter(entry => entry.university.includes(query));
+                // 대학명으로 검색 (부분 일치) - 전체 연도 대상
+                const results = allEntries.filter(entry => entry.university.includes(query));
 
                 searchClearBtn.style.display = 'inline-block';
 
@@ -897,6 +895,7 @@
                     thead.innerHTML = `
                         <tr>
                             <th>대학</th>
+                            <th>지역</th>
                             <th>모집단위</th>
                             <th>전형</th>
                             <th>연도</th>
@@ -920,6 +919,7 @@
                         return `
                             <tr>
                                 <td title="${entry.university}">${entry.university}</td>
+                                <td>${entry.region || '-'}</td>
                                 <td title="${entry.department}">${entry.department}</td>
                                 <td><span class="badge ${getBadgeClass(entry.admissionType)}">${entry.admissionType}</span></td>
                                 <td>${entry.year}년</td>
@@ -1011,8 +1011,8 @@
 
             // 학과 검색 실행 함수
             function performDeptSearch(query) {
-                const filteredByYear = allEntries.filter(entry => selectedYears.includes(entry.year.toString()));
-                const results = filteredByYear.filter(entry => entry.department.includes(query));
+                // 모집단위로 검색 (부분 일치) - 전체 연도 대상
+                const results = allEntries.filter(entry => entry.department.includes(query));
 
                 deptSearchClearBtn.style.display = 'inline-block';
                 deptSearchResultsContainer.innerHTML = '';
@@ -1060,10 +1060,11 @@
                     thead.innerHTML = `
                         <tr>
                             <th>대학</th>
+                            <th>지역</th>
                             <th>모집단위</th>
                             <th>전형</th>
                             <th>연도</th>
-                            <th>내신등급<br>(국영수사탐)</th>
+                            <th>내신등급<br>(국영수사과)</th>
                             <th>수능등급<br>(국수영탐1탐2)</th>
                         </tr>
                     `;
@@ -1082,6 +1083,7 @@
                         return `
                             <tr>
                                 <td title="${entry.university}">${entry.university}</td>
+                                <td>${entry.region || '-'}</td>
                                 <td title="${entry.department}">${entry.department}</td>
                                 <td><span class="badge ${getBadgeClass(entry.admissionType)}">${entry.admissionType}</span></td>
                                 <td>${entry.year}년</td>
@@ -1107,7 +1109,7 @@
             }
 
             // Excel 파일 불러오기 (SheetJS 라이브러리 사용)
-            fetch('입시결과.xlsx')
+            fetch('입시결과4.xlsx')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP 오류! 상태: ${response.status}`);
@@ -1132,8 +1134,17 @@
                             // JSON으로 변환
                             const jsonData = XLSX.utils.sheet_to_json(worksheet);
                             
+                            // 컬럼명 공백/줄바꿈 제거
+                            const cleanedData = jsonData.map(row => {
+                                const cleaned = {};
+                                Object.keys(row).forEach(key => {
+                                    cleaned[key.trim()] = row[key];
+                                });
+                                return cleaned;
+                            });
+                            
                             // 데이터 처리
-                            processData(jsonData);
+                            processData(cleanedData);
                         };
                     } catch (error) {
                         console.error('데이터 처리 중 오류:', error);
@@ -1174,10 +1185,10 @@
                                 
                                 if (values.length >= 5) {
                                     const entry = {
-                                        university: values[0],
-                                        category: values[1],
-                                        department: values[2],
-                                        admissionType: values[3],
+                                        university: values[0].trim(),
+                                        category: values[1].trim(),
+                                        department: values[2].trim(),
+                                        admissionType: values[3].trim(),
                                         grade: parseFloat(values[4])
                                     };
                                     
@@ -1203,10 +1214,11 @@
                 jsonData.forEach(row => {
                     const entry = {
                         year: row['년도'],
-                        university: row['대학'],
-                        category: row['계열'],
-                        department: row['모집단위'],
-                        admissionType: row['전형명'],
+                        university: (row['대학'] || '').toString().trim(),
+                        category: (row['계열'] || '').toString().trim(),
+                        department: (row['모집단위'] || '').toString().trim(),
+                        admissionType: (row['전형명'] || '').toString().trim(),
+                        region: (row['지역'] || '').toString().trim(),
                         grade: parseFloat(row['전과목']),
                         suneung: {
                             korean: row['국'],
@@ -1440,10 +1452,11 @@
                                 thead.innerHTML = `
                                     <tr>
                                         <th data-sort="university" class="${sortState.column === 'university' ? sortState.direction : ''}">대학</th>
+                                        <th>지역</th>
                                         <th>모집단위</th>
                                         <th data-sort="admissionType" class="${sortState.column === 'admissionType' ? sortState.direction : ''}">전형</th>
                                         <th data-sort="year" class="${sortState.column === 'year' ? sortState.direction : ''}">연도</th>
-                                        <th data-sort="grade" class="${sortState.column === 'grade' ? sortState.direction : ''}">내신등급<br>(국영수사탐)</th>
+                                        <th data-sort="grade" class="${sortState.column === 'grade' ? sortState.direction : ''}">내신등급<br>(국영수사과)</th>
                                         <th>수능등급<br>(국수영탐1탐2)</th>
                                     </tr>
                                 `;
@@ -1465,6 +1478,7 @@
                                     return `
                                         <tr>
                                             <td title="${entry.university}">${entry.university}</td>
+                                            <td>${entry.region || '-'}</td>
                                             <td title="${entry.department}">${entry.department}</td>
                                             <td><span class="badge ${getBadgeClass(entry.admissionType)}">${entry.admissionType}</span></td>
                                             <td>${entry.year}년</td>
