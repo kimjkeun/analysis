@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="2025년 금옥여고 수시 입시 결과 분석">
+    <meta name="description" content="2026년 금옥여고 수시 입시 결과 분석">
     <meta name="keywords" content="금옥여고, 입시결과, 대학입시, 진학분석">
     <title>2025년 금옥여고 입시 결과 분석(중복포함)</title>
     <style>
@@ -396,47 +396,53 @@
         .mode-tabs {
             display: flex;
             margin-bottom: 0;
-            gap: 4px;
+            gap: 0;
         }
 
         .mode-tab {
             flex: 1;
-            padding: 16px 24px;
-            border: none;
+            padding: 18px 24px;
+            border: 2px solid #d0d9ff;
+            border-bottom: none;
             cursor: pointer;
-            font-size: 1.15em;
-            font-weight: 700;
+            font-size: 1.2em;
+            font-weight: 800;
+            letter-spacing: 0.5px;
             transition: all 0.3s;
-            border-radius: 10px 10px 0 0;
+            border-radius: 12px 12px 0 0;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            background-color: #e0e4f0;
-            color: #8890b5;
+            background-color: #e8ecf8;
+            color: #9098c0;
+            position: relative;
+        }
+
+        .mode-tab:first-child {
+            margin-right: -1px;
         }
 
         .mode-tab:hover {
-            background-color: #d4daf0;
+            background-color: #dce2f5;
             color: #5a65a0;
         }
 
         .mode-tab.active {
             background-color: white;
             color: #3f51b5;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
-        }
-
-        .mode-tab .tab-icon {
-            font-size: 1.2em;
+            border-color: #3f51b5;
+            border-bottom: 3px solid white;
+            z-index: 1;
         }
 
         .tab-panel {
             display: none;
             background-color: white;
+            border: 2px solid #3f51b5;
+            border-top: none;
             border-radius: 0 0 10px 10px;
             padding: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
 
@@ -455,10 +461,11 @@
             display: flex;
             gap: 10px;
             align-items: center;
+            justify-content: flex-start;
         }
 
         .search-input {
-            flex: 1;
+            width: 400px;
             padding: 12px 16px;
             border: 2px solid #d0d9ff;
             border-radius: 8px;
@@ -634,7 +641,7 @@
     </div>
 
     <header>
-        <h1>금옥여고 수시 입시 결과 분석</h1>
+        <h1>금옥여고 수시 입시 결과 분석(2022~2025)</h1>
         <p>등급대별 대학, 전형, 계열, 모집단위 종합 분석 (계열별 구분)</p>
     </header>
 
@@ -646,17 +653,20 @@
     <!-- 모드 탭 -->
     <div class="mode-tabs">
         <button class="mode-tab active" id="tabGradeSearch" data-tab="grade-search">
-            <span class="tab-icon">&#128202;</span> 등급별 검색
+등급별 검색
         </button>
         <button class="mode-tab" id="tabUnivSearch" data-tab="univ-search">
-            <span class="tab-icon">&#128269;</span> 대학교 검색
+대학교 검색
+        </button>
+        <button class="mode-tab" id="tabDeptSearch" data-tab="dept-search">
+학과별 검색
         </button>
     </div>
 
     <!-- 등급별 검색 패널 -->
     <div class="tab-panel active" id="panel-grade-search">
         <p class="grade-panel-description">내신 등급대를 선택하여 해당 등급으로 합격한 대학 및 학과 정보를 확인하세요.</p>
-        <span class="grade-sub-label">&#128203; 등급 선택</span>
+        <span class="grade-sub-label">등급 선택</span>
         <div class="grade-navigation" id="gradeNavigation">
             <button class="grade-nav-btn active" data-grade="1.0-1.5">1.0-1.5</button>
             <button class="grade-nav-btn" data-grade="1.5-2.0">1.5-2.0</button>
@@ -676,7 +686,7 @@
     <div class="tab-panel" id="panel-univ-search">
         <p class="search-description">대학교 이름으로 검색하여 해당 대학의 모든 입시 결과를 한눈에 확인하세요.</p>
         <div class="search-input-wrapper">
-            <div class="search-suggestions" style="flex:1;">
+            <div class="search-suggestions">
                 <input type="text" class="search-input" id="universitySearchInput" placeholder="대학교 이름을 입력하세요 (예: 연세대, 건국대, 이화여대)">
                 <div class="suggestions-list" id="suggestionsList" style="display:none;"></div>
             </div>
@@ -685,6 +695,21 @@
         </div>
         <div class="search-results-info" id="searchResultsInfo"></div>
         <div id="searchResultsContainer"></div>
+    </div>
+
+    <!-- 학과별 검색 패널 -->
+    <div class="tab-panel" id="panel-dept-search">
+        <p class="search-description">학과(모집단위) 이름으로 검색하여 해당 학과의 입시 결과를 확인하세요.</p>
+        <div class="search-input-wrapper">
+            <div class="search-suggestions">
+                <input type="text" class="search-input" id="deptSearchInput" placeholder="학과명을 입력하세요 (예: 경영, 간호, 컴퓨터)">
+                <div class="suggestions-list" id="deptSuggestionsList" style="display:none;"></div>
+            </div>
+            <button class="search-btn" id="deptSearchBtn">검색</button>
+            <button class="search-clear-btn" id="deptSearchClearBtn" style="display:none;">초기화</button>
+        </div>
+        <div class="search-results-info" id="deptSearchResultsInfo"></div>
+        <div id="deptSearchResultsContainer"></div>
     </div>
 
     <script>
@@ -828,7 +853,7 @@
                 if (results.length === 0) {
                     searchResultsInfo.textContent = `"${query}" 검색 결과가 없습니다.`;
                     searchResultsInfo.classList.add('active');
-                    searchResultsContainer.innerHTML = '<div class="search-no-result"><span class="no-result-icon">&#128269;</span>검색 결과가 없습니다. 다른 대학명으로 검색해 보세요.</div>';
+                    searchResultsContainer.innerHTML = '<div class="search-no-result">검색 결과가 없습니다. 다른 대학명으로 검색해 보세요.</div>';
                     return;
                 }
 
@@ -917,6 +942,168 @@
                 searchClearBtn.style.display = 'none';
                 searchResultsInfo.classList.remove('active');
                 searchResultsContainer.innerHTML = '';
+            }
+
+            // ===== 학과별 검색 기능 =====
+            const deptSearchInput = document.getElementById('deptSearchInput');
+            const deptSearchBtn = document.getElementById('deptSearchBtn');
+            const deptSearchClearBtn = document.getElementById('deptSearchClearBtn');
+            const deptSuggestionsList = document.getElementById('deptSuggestionsList');
+            const deptSearchResultsInfo = document.getElementById('deptSearchResultsInfo');
+            const deptSearchResultsContainer = document.getElementById('deptSearchResultsContainer');
+
+            // 학과 자동완성
+            deptSearchInput.addEventListener('input', function() {
+                const query = this.value.trim();
+                if (query.length === 0 || allEntries.length === 0) {
+                    deptSuggestionsList.style.display = 'none';
+                    return;
+                }
+                const uniqueDepts = [...new Set(allEntries.map(e => e.department))];
+                const matched = uniqueDepts.filter(d => d.includes(query)).sort();
+                if (matched.length === 0) {
+                    deptSuggestionsList.style.display = 'none';
+                    return;
+                }
+                deptSuggestionsList.innerHTML = matched.slice(0, 10).map(d => {
+                    const highlighted = d.replace(new RegExp(query, 'g'), `<span class="highlight">${query}</span>`);
+                    return `<div class="suggestion-item" data-dept="${d}">${highlighted}</div>`;
+                }).join('');
+                deptSuggestionsList.style.display = 'block';
+            });
+
+            // 학과 자동완성 항목 클릭
+            deptSuggestionsList.addEventListener('click', function(e) {
+                const item = e.target.closest('.suggestion-item');
+                if (item) {
+                    deptSearchInput.value = item.dataset.dept;
+                    deptSuggestionsList.style.display = 'none';
+                    performDeptSearch(item.dataset.dept);
+                }
+            });
+
+            // 학과 검색 버튼
+            deptSearchBtn.addEventListener('click', function() {
+                const query = deptSearchInput.value.trim();
+                if (query) performDeptSearch(query);
+            });
+
+            // 학과 Enter 키
+            deptSearchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    deptSuggestionsList.style.display = 'none';
+                    const query = this.value.trim();
+                    if (query) performDeptSearch(query);
+                }
+            });
+
+            // 학과 초기화 버튼
+            deptSearchClearBtn.addEventListener('click', function() {
+                clearDeptSearch();
+            });
+
+            // 학과 외부 클릭 시 자동완성 닫기
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('#panel-dept-search .search-suggestions')) {
+                    deptSuggestionsList.style.display = 'none';
+                }
+            });
+
+            // 학과 검색 실행 함수
+            function performDeptSearch(query) {
+                const filteredByYear = allEntries.filter(entry => selectedYears.includes(entry.year.toString()));
+                const results = filteredByYear.filter(entry => entry.department.includes(query));
+
+                deptSearchClearBtn.style.display = 'inline-block';
+                deptSearchResultsContainer.innerHTML = '';
+
+                if (results.length === 0) {
+                    deptSearchResultsInfo.textContent = `"${query}" 검색 결과가 없습니다.`;
+                    deptSearchResultsInfo.classList.add('active');
+                    deptSearchResultsContainer.innerHTML = '<div class="search-no-result">검색 결과가 없습니다. 다른 학과명으로 검색해 보세요.</div>';
+                    return;
+                }
+
+                const matchedDepts = [...new Set(results.map(e => e.department))];
+                deptSearchResultsInfo.textContent = `"${query}" 검색 결과: ${matchedDepts.length}개 학과, 총 ${results.length}건`;
+                deptSearchResultsInfo.classList.add('active');
+
+                // 등급별로 결과 그룹화
+                const gradeRanges = [
+                    { min: 1.0, max: 1.5, name: '1.0-1.5' },
+                    { min: 1.5, max: 2.0, name: '1.5-2.0' },
+                    { min: 2.0, max: 2.5, name: '2.0-2.5' },
+                    { min: 2.5, max: 3.0, name: '2.5-3.0' },
+                    { min: 3.0, max: 3.5, name: '3.0-3.5' },
+                    { min: 3.5, max: 4.0, name: '3.5-4.0' },
+                    { min: 4.0, max: 4.5, name: '4.0-4.5' },
+                    { min: 4.5, max: 5.0, name: '4.5-5.0' },
+                    { min: 5.0, max: 5.5, name: '5.0-5.5' },
+                    { min: 5.5, max: 6.0, name: '5.5-6.0' },
+                    { min: 6.0, max: 9.0, name: '6.0 이상' }
+                ];
+
+                gradeRanges.forEach(range => {
+                    const gradeResults = results.filter(e => e.grade >= range.min && e.grade < range.max);
+                    if (gradeResults.length === 0) return;
+
+                    const section = document.createElement('div');
+                    section.className = 'search-result-section';
+
+                    const titleDiv = document.createElement('div');
+                    titleDiv.className = 'search-result-grade-title';
+                    titleDiv.innerHTML = `<h3>내신 ${range.name} 등급대</h3><span class="grade-count">${gradeResults.length}건</span>`;
+                    section.appendChild(titleDiv);
+
+                    const table = document.createElement('table');
+                    const thead = document.createElement('thead');
+                    thead.innerHTML = `
+                        <tr>
+                            <th>대학</th>
+                            <th>모집단위</th>
+                            <th>전형</th>
+                            <th>연도</th>
+                            <th>내신등급<br>(국영수사탐)</th>
+                            <th>수능등급<br>(국수영탐1탐2)</th>
+                        </tr>
+                    `;
+
+                    const tbody = document.createElement('tbody');
+                    gradeResults.sort((a, b) => a.grade - b.grade);
+                    tbody.innerHTML = gradeResults.map(entry => {
+                        let suneungText = '';
+                        if (entry.suneung && entry.suneung.korean) suneungText += entry.suneung.korean;
+                        if (entry.suneung && entry.suneung.math) suneungText += entry.suneung.math;
+                        if (entry.suneung && entry.suneung.english) suneungText += entry.suneung.english;
+                        if (entry.suneung && entry.suneung.tam1) suneungText += entry.suneung.tam1;
+                        if (entry.suneung && entry.suneung.tam2) suneungText += entry.suneung.tam2;
+                        if (suneungText === '') suneungText = '-';
+
+                        return `
+                            <tr>
+                                <td title="${entry.university}">${entry.university}</td>
+                                <td title="${entry.department}">${entry.department}</td>
+                                <td><span class="badge ${getBadgeClass(entry.admissionType)}">${entry.admissionType}</span></td>
+                                <td>${entry.year}년</td>
+                                <td>${entry.grade.toFixed(3)}</td>
+                                <td>${suneungText}</td>
+                            </tr>
+                        `;
+                    }).join('');
+
+                    table.appendChild(thead);
+                    table.appendChild(tbody);
+                    section.appendChild(table);
+                    deptSearchResultsContainer.appendChild(section);
+                });
+            }
+
+            // 학과 검색 초기화 함수
+            function clearDeptSearch() {
+                deptSearchInput.value = '';
+                deptSearchClearBtn.style.display = 'none';
+                deptSearchResultsInfo.classList.remove('active');
+                deptSearchResultsContainer.innerHTML = '';
             }
 
             // Excel 파일 불러오기 (SheetJS 라이브러리 사용)
@@ -1117,7 +1304,7 @@
                 // 필터 서브라벨 추가
                 const filterLabel = document.createElement('span');
                 filterLabel.className = 'grade-sub-label filter-sub-label';
-                filterLabel.innerHTML = '&#128197; 연도 필터';
+                filterLabel.innerHTML = '연도 필터';
 
                 // 필터 섹션 추가
                 const filterSection = document.createElement('div');
